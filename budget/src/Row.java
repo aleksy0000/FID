@@ -12,4 +12,12 @@ public class Row {
     public void getValues(){
         System.out.println("Expense: " + rowName + " Amount: " + rowValue);
     }
+
+    public String getRowName() {
+        return rowName;
+    }
+
+    public double getRowValue() {
+        return rowValue;
+    }
 }

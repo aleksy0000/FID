@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Budget {
     public static int tierCounter;
@@ -12,5 +13,9 @@ public class Budget {
 
     public Tier getTier(int index){
         return tiers.get(index);
+    }
+
+    public List<Tier> getTiers() {
+        return tiers;
     }
 }

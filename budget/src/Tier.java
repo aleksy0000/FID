@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Tier {
     public static int rowCounter;
@@ -17,5 +18,13 @@ public class Tier {
 
     public Row getExpense(int index){
         return expenses.get(index);
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public List<Row> getExpenses() {
+        return expenses;
     }
 }
