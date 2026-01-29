@@ -5,8 +5,8 @@ public class Row {
     protected double rowValue;
 
     public Row(String rowName, double rowValue){
-        this.rowName = rowName;
-        this.rowValue = rowValue;
+        setRowName(rowName);
+        setRowValue(rowValue);
     }
 
     public void getValues(){
@@ -19,5 +19,13 @@ public class Row {
 
     public double getRowValue() {
         return rowValue;
+    }
+
+    public void setRowName(String rowName){
+        this.rowName = rowName;
+    }
+
+    public void setRowValue(double rowValue){
+        this.rowValue = rowValue;
     }
 }

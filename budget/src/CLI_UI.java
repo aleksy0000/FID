@@ -16,6 +16,8 @@ public class CLI_UI {
                 case "2" -> createTier();
                 case "3" -> createRow();
                 case "4" -> printBudget();
+                case "5" -> editRow();
+                case "6" -> deleteRow();
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option!");
             }
@@ -29,6 +31,8 @@ public class CLI_UI {
             2. Create Tier
             3. Create Row
             4. Print Budget
+            5. Edit Row
+            6. Delete Row
             0. Exit
             """);
         System.out.print("Choice: ");
@@ -41,6 +45,11 @@ public class CLI_UI {
     }
 
     private void createTier(){
+        if(budget == null){
+            System.out.println("Create a budget first!");
+            return;
+        }
+
         System.out.println("Enter Tier Priority:");
 
         String input = scanner.nextLine();
@@ -55,6 +64,18 @@ public class CLI_UI {
         }
 
         budget.createTier(priority);
+        int newTierIndex = budget.getTiers().size() - 1;
+
+        System.out.println("Enter Tier Name:");
+
+        String tierName = scanner.nextLine();
+
+        if(tierName.isEmpty()){
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        budget.getTier(newTierIndex).setTierName(tierName);
     }
 
     private void createRow(){
@@ -63,7 +84,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Choose Tier");
+        System.out.println("Choose Tier (0 = Income)");
 
         String tierInput = scanner.nextLine();
 
@@ -120,9 +141,17 @@ public class CLI_UI {
 
         for (int i = 0; i < budget.getTiers().size(); i++) {
             Tier tier = budget.getTiers().get(i);
-            System.out.println("Tier " + i + " (priority " + tier.getPriority() + "):");
-
-            double tierTotal = 0.0;
+            if (i == 0 && tier == budget.getIncomeTier()) {
+                String displayName = tier.tierName == null || tier.tierName.isEmpty()
+                        ? "Income"
+                        : "Income - " + tier.tierName;
+                System.out.println(displayName + ":");
+            } else {
+                String displayName = tier.tierName == null || tier.tierName.isEmpty()
+                        ? "Tier " + i
+                        : "Tier " + i + " - " + tier.tierName;
+                System.out.println(displayName + " (priority " + tier.getPriority() + "):");
+            }
 
             for (int j = 0; j < tier.getExpenses().size(); j++) {
                 Row row = tier.getExpenses().get(j);
@@ -133,11 +162,147 @@ public class CLI_UI {
                         row.getRowName(),
                         row.getRowValue()
                 );
-
-                tierTotal += row.getRowValue();
             }
 
-            System.out.printf("  Tier total: %.2f%n%n", tierTotal);
+            System.out.printf("  Tier total: %.2f%n%n", tier.calcTierExpenseTotal());
         }
+
+        double totalIncome = budget.getTotalIncome();
+        double totalAllTiers = budget.getTotalTierTotals();
+        double totalExpenses = totalAllTiers - totalIncome;
+        System.out.printf("Total income: %.2f%n", totalIncome);
+        System.out.printf("Total expenses: %.2f%n", totalExpenses);
+        System.out.printf("Total revenue: %.2f%n", budget.getTotalRevenue());
+    }
+
+    private void editRow(){
+        if(budget == null){
+            System.out.println("Create a budget first!");
+            return;
+        }
+
+        System.out.println("Choose Tier (0 = Income)");
+
+        String tierInput = scanner.nextLine();
+
+        int tierIndex;
+
+        try{
+            tierIndex = Integer.parseInt(tierInput);
+        } catch(NumberFormatException e) {
+            System.out.println("Invalid Value.");
+            return;
+        }
+
+        if(tierIndex < 0 || tierIndex >= budget.getTiers().size()){
+            System.out.println("Tier doesn't exist!");
+            return;
+        }
+
+        Tier tier = budget.getTier(tierIndex);
+
+        if(tier.getExpenses().isEmpty()){
+            System.out.println("No rows in this tier.");
+            return;
+        }
+
+        for (int i = 0; i < tier.getExpenses().size(); i++) {
+            Row row = tier.getExpenses().get(i);
+            System.out.printf("  [%d] %s : %.2f%n", i, row.getRowName(), row.getRowValue());
+        }
+
+        System.out.println("Choose Row");
+
+        String rowInput = scanner.nextLine();
+
+        int rowIndex;
+
+        try{
+            rowIndex = Integer.parseInt(rowInput);
+        } catch(NumberFormatException e) {
+            System.out.println("Invalid Value.");
+            return;
+        }
+
+        if(rowIndex < 0 || rowIndex >= tier.getExpenses().size()){
+            System.out.println("Row doesn't exist!");
+            return;
+        }
+
+        System.out.println("Enter New Row Name:");
+
+        String rowName = scanner.nextLine();
+
+        if(rowName.isEmpty()){
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        System.out.print("Enter New Row Value:");
+
+        String valueInput = scanner.nextLine();
+
+        double value;
+
+        try{
+            value = Double.parseDouble(valueInput);
+        }catch(NumberFormatException e){
+            System.out.println("Invalid Number.");
+            return;
+        }
+
+        tier.getExpenses().set(rowIndex, new Row(rowName, value));
+    }
+
+    private void deleteRow(){
+        if(budget == null){
+            System.out.println("Create a budget first!");
+            return;
+        }
+
+        System.out.println("Choose Tier (0 = Income)");
+
+        String tierInput = scanner.nextLine();
+
+        int tierIndex;
+
+        try{
+            tierIndex = Integer.parseInt(tierInput);
+        } catch(NumberFormatException e) {
+            System.out.println("Invalid Value.");
+            return;
+        }
+
+        if(tierIndex < 0 || tierIndex >= budget.getTiers().size()){
+            System.out.println("Tier doesn't exist!");
+            return;
+        }
+
+        Tier tier = budget.getTier(tierIndex);
+
+        if(tier.getExpenses().isEmpty()){
+            System.out.println("No rows in this tier.");
+            return;
+        }
+
+        System.out.println("Choose Row");
+
+        String rowInput = scanner.nextLine();
+
+        int rowIndex;
+
+        try{
+            rowIndex = Integer.parseInt(rowInput);
+        } catch(NumberFormatException e) {
+            System.out.println("Invalid Value.");
+            return;
+        }
+
+        if(rowIndex < 0 || rowIndex >= tier.getExpenses().size()){
+            System.out.println("Row doesn't exist!");
+            return;
+        }
+
+        tier.getExpenses().remove(rowIndex);
     }
 }
