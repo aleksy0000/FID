@@ -1,10 +1,12 @@
+package budget;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Budget {
     public static int tierCounter;
     private final Tier incomeTier;
-    protected ArrayList<Tier> tiers = new ArrayList<>();
+    private ArrayList<Tier> tiers = new ArrayList<>();
 
     public Budget(){
         incomeTier = new Tier(0);

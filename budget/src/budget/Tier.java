@@ -1,11 +1,13 @@
+package budget;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tier {
     public static int rowCounter;
-    protected ArrayList<Row> expenses = new ArrayList<>();
-    protected int priority;
-    protected String tierName;
+    private ArrayList<Row> expenses = new ArrayList<>();
+    private int priority;
+    private String tierName;
 
     public Tier (int priority){
         this.priority = priority;
@@ -31,6 +33,10 @@ public class Tier {
 
     public void setTierName(String tierName){
         this.tierName = tierName;
+    }
+
+    public String getTierName() {
+        return tierName;
     }
 
     public double calcTierExpenseTotal(){

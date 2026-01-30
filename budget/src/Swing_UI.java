@@ -1,3 +1,7 @@
+import budget.Budget;
+import budget.Row;
+import budget.Tier;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,39 +14,39 @@ public class Swing_UI {
     }
 
     private void createAndShowUI() {
-        JFrame frame = new JFrame("Budget GUI");
+        JFrame frame = new JFrame("budget.Budget GUI");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         output.setEditable(false);
         output.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonPanel.add(new JButton(new AbstractAction("Create Budget") {
+        buttonPanel.add(new JButton(new AbstractAction("Create budget.Budget") {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 budget = new Budget();
-                output.setText("Budget created.\n");
+                output.setText("budget.Budget created.\n");
             }
         }));
-        buttonPanel.add(new JButton(new AbstractAction("Add Tier") {
+        buttonPanel.add(new JButton(new AbstractAction("Add budget.Tier") {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 addTier();
             }
         }));
-        buttonPanel.add(new JButton(new AbstractAction("Add Row") {
+        buttonPanel.add(new JButton(new AbstractAction("Add budget.Row") {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 addRow();
             }
         }));
-        buttonPanel.add(new JButton(new AbstractAction("Edit Row") {
+        buttonPanel.add(new JButton(new AbstractAction("Edit budget.Row") {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 editRow();
             }
         }));
-        buttonPanel.add(new JButton(new AbstractAction("Delete Row") {
+        buttonPanel.add(new JButton(new AbstractAction("Delete budget.Row") {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 deleteRow();
@@ -70,12 +74,12 @@ public class Swing_UI {
             return;
         }
 
-        Integer priority = promptInt("Enter Tier Priority:");
+        Integer priority = promptInt("Enter budget.Tier Priority:");
         if (priority == null) {
             return;
         }
 
-        String name = promptString("Enter Tier Name:");
+        String name = promptString("Enter budget.Tier Name:");
         if (name == null || name.isEmpty()) {
             message("Name cannot be empty.");
             return;
@@ -92,23 +96,23 @@ public class Swing_UI {
             return;
         }
 
-        Integer tierIndex = promptInt("Choose Tier (0 = Income):");
+        Integer tierIndex = promptInt("Choose budget.Tier (0 = Income):");
         if (tierIndex == null) {
             return;
         }
 
         if (tierIndex < 0 || tierIndex >= budget.getTiers().size()) {
-            message("Tier doesn't exist!");
+            message("budget.Tier doesn't exist!");
             return;
         }
 
-        String rowName = promptString("Enter Row Name:");
+        String rowName = promptString("Enter budget.Row Name:");
         if (rowName == null || rowName.isEmpty()) {
             message("Name cannot be empty.");
             return;
         }
 
-        Double value = promptDouble("Enter Row Value:");
+        Double value = promptDouble("Enter budget.Row Value:");
         if (value == null) {
             return;
         }
@@ -122,13 +126,13 @@ public class Swing_UI {
             return;
         }
 
-        Integer tierIndex = promptInt("Choose Tier (0 = Income):");
+        Integer tierIndex = promptInt("Choose budget.Tier (0 = Income):");
         if (tierIndex == null) {
             return;
         }
 
         if (tierIndex < 0 || tierIndex >= budget.getTiers().size()) {
-            message("Tier doesn't exist!");
+            message("budget.Tier doesn't exist!");
             return;
         }
 
@@ -138,23 +142,23 @@ public class Swing_UI {
             return;
         }
 
-        Integer rowIndex = promptInt("Choose Row Index:");
+        Integer rowIndex = promptInt("Choose budget.Row Index:");
         if (rowIndex == null) {
             return;
         }
 
         if (rowIndex < 0 || rowIndex >= tier.getExpenses().size()) {
-            message("Row doesn't exist!");
+            message("budget.Row doesn't exist!");
             return;
         }
 
-        String rowName = promptString("Enter New Row Name:");
+        String rowName = promptString("Enter New budget.Row Name:");
         if (rowName == null || rowName.isEmpty()) {
             message("Name cannot be empty.");
             return;
         }
 
-        Double value = promptDouble("Enter New Row Value:");
+        Double value = promptDouble("Enter New budget.Row Value:");
         if (value == null) {
             return;
         }
@@ -170,13 +174,13 @@ public class Swing_UI {
             return;
         }
 
-        Integer tierIndex = promptInt("Choose Tier (0 = Income):");
+        Integer tierIndex = promptInt("Choose budget.Tier (0 = Income):");
         if (tierIndex == null) {
             return;
         }
 
         if (tierIndex < 0 || tierIndex >= budget.getTiers().size()) {
-            message("Tier doesn't exist!");
+            message("budget.Tier doesn't exist!");
             return;
         }
 
@@ -186,13 +190,13 @@ public class Swing_UI {
             return;
         }
 
-        Integer rowIndex = promptInt("Choose Row Index:");
+        Integer rowIndex = promptInt("Choose budget.Row Index:");
         if (rowIndex == null) {
             return;
         }
 
         if (rowIndex < 0 || rowIndex >= tier.getExpenses().size()) {
-            message("Row doesn't exist!");
+            message("budget.Row doesn't exist!");
             return;
         }
 
@@ -212,14 +216,14 @@ public class Swing_UI {
         for (int i = 0; i < budget.getTiers().size(); i++) {
             Tier tier = budget.getTiers().get(i);
             if (i == 0 && tier == budget.getIncomeTier()) {
-                String displayName = tier.tierName == null || tier.tierName.isEmpty()
+                String displayName = tier.getTierName() == null || tier.getTierName().isEmpty()
                         ? "Income"
-                        : "Income - " + tier.tierName;
+                        : "Income - " + tier.getTierName();
                 sb.append(displayName).append(":\n");
             } else {
-                String displayName = tier.tierName == null || tier.tierName.isEmpty()
-                        ? "Tier " + i
-                        : "Tier " + i + " - " + tier.tierName;
+                String displayName = tier.getTierName() == null || tier.getTierName().isEmpty()
+                        ? "budget.Tier " + i
+                        : "budget.Tier " + i + " - " + tier.getTierName();
                 sb.append(displayName)
                         .append(" (priority ")
                         .append(tier.getPriority())
@@ -231,7 +235,7 @@ public class Swing_UI {
                 sb.append(String.format("  [%d] %s : %.2f%n", j, row.getRowName(), row.getRowValue()));
             }
 
-            sb.append(String.format("  Tier total: %.2f%n%n", tier.calcTierExpenseTotal()));
+            sb.append(String.format("  budget.Tier total: %.2f%n%n", tier.calcTierExpenseTotal()));
         }
 
         double totalIncome = budget.getTotalIncome();

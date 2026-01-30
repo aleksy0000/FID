@@ -1,3 +1,7 @@
+import budget.Budget;
+import budget.Row;
+import budget.Tier;
+
 import java.util.Scanner;
 
 public class CLI_UI {
@@ -26,13 +30,13 @@ public class CLI_UI {
 
     private void printMenu(){
         System.out.println("""
-            ===== Budget CLI =====
-            1. Create Budget
-            2. Create Tier
-            3. Create Row
-            4. Print Budget
-            5. Edit Row
-            6. Delete Row
+            ===== budget.Budget CLI =====
+            1. Create budget.Budget
+            2. Create budget.Tier
+            3. Create budget.Row
+            4. Print budget.Budget
+            5. Edit budget.Row
+            6. Delete budget.Row
             0. Exit
             """);
         System.out.print("Choice: ");
@@ -41,7 +45,7 @@ public class CLI_UI {
     private void createBudget(){
         this.budget = new Budget();
 
-        System.out.println("Budget Created");
+        System.out.println("budget.Budget Created");
     }
 
     private void createTier(){
@@ -50,7 +54,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Enter Tier Priority:");
+        System.out.println("Enter budget.Tier Priority:");
 
         String input = scanner.nextLine();
 
@@ -66,7 +70,7 @@ public class CLI_UI {
         budget.createTier(priority);
         int newTierIndex = budget.getTiers().size() - 1;
 
-        System.out.println("Enter Tier Name:");
+        System.out.println("Enter budget.Tier Name:");
 
         String tierName = scanner.nextLine();
 
@@ -84,7 +88,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Choose Tier (0 = Income)");
+        System.out.println("Choose budget.Tier (0 = Income)");
 
         String tierInput = scanner.nextLine();
 
@@ -96,12 +100,12 @@ public class CLI_UI {
             System.out.println("Invalid Value.");
         }
 
-        if(tierIndex > budget.tiers.size() - 1 && tierIndex >= 0){
-            System.out.println("Tier doesn't exist!");
+        if(tierIndex > budget.getTiers().size() - 1 && tierIndex >= 0){
+            System.out.println("budget.Tier doesn't exist!");
             return;
         }
 
-        System.out.println("Enter Row Name:");
+        System.out.println("Enter budget.Row Name:");
 
         String rowName = scanner.nextLine();
 
@@ -110,7 +114,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.print("Enter Row Value:");
+        System.out.print("Enter budget.Row Value:");
 
         String valueInput = scanner.nextLine();
 
@@ -142,14 +146,14 @@ public class CLI_UI {
         for (int i = 0; i < budget.getTiers().size(); i++) {
             Tier tier = budget.getTiers().get(i);
             if (i == 0 && tier == budget.getIncomeTier()) {
-                String displayName = tier.tierName == null || tier.tierName.isEmpty()
+                String displayName = tier.getTierName() == null || tier.getTierName().isEmpty()
                         ? "Income"
-                        : "Income - " + tier.tierName;
+                        : "Income - " + tier.getTierName();
                 System.out.println(displayName + ":");
             } else {
-                String displayName = tier.tierName == null || tier.tierName.isEmpty()
-                        ? "Tier " + i
-                        : "Tier " + i + " - " + tier.tierName;
+                String displayName = tier.getTierName() == null || tier.getTierName().isEmpty()
+                        ? "budget.Tier " + i
+                        : "budget.Tier " + i + " - " + tier.getTierName();
                 System.out.println(displayName + " (priority " + tier.getPriority() + "):");
             }
 
@@ -164,7 +168,7 @@ public class CLI_UI {
                 );
             }
 
-            System.out.printf("  Tier total: %.2f%n%n", tier.calcTierExpenseTotal());
+            System.out.printf("  budget.Tier total: %.2f%n%n", tier.calcTierExpenseTotal());
         }
 
         double totalIncome = budget.getTotalIncome();
@@ -181,7 +185,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Choose Tier (0 = Income)");
+        System.out.println("Choose budget.Tier (0 = Income)");
 
         String tierInput = scanner.nextLine();
 
@@ -195,7 +199,7 @@ public class CLI_UI {
         }
 
         if(tierIndex < 0 || tierIndex >= budget.getTiers().size()){
-            System.out.println("Tier doesn't exist!");
+            System.out.println("budget.Tier doesn't exist!");
             return;
         }
 
@@ -211,7 +215,7 @@ public class CLI_UI {
             System.out.printf("  [%d] %s : %.2f%n", i, row.getRowName(), row.getRowValue());
         }
 
-        System.out.println("Choose Row");
+        System.out.println("Choose budget.Row");
 
         String rowInput = scanner.nextLine();
 
@@ -225,11 +229,11 @@ public class CLI_UI {
         }
 
         if(rowIndex < 0 || rowIndex >= tier.getExpenses().size()){
-            System.out.println("Row doesn't exist!");
+            System.out.println("budget.Row doesn't exist!");
             return;
         }
 
-        System.out.println("Enter New Row Name:");
+        System.out.println("Enter New budget.Row Name:");
 
         String rowName = scanner.nextLine();
 
@@ -238,7 +242,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.print("Enter New Row Value:");
+        System.out.print("Enter New budget.Row Value:");
 
         String valueInput = scanner.nextLine();
 
@@ -260,7 +264,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Choose Tier (0 = Income)");
+        System.out.println("Choose budget.Tier (0 = Income)");
 
         String tierInput = scanner.nextLine();
 
@@ -274,7 +278,7 @@ public class CLI_UI {
         }
 
         if(tierIndex < 0 || tierIndex >= budget.getTiers().size()){
-            System.out.println("Tier doesn't exist!");
+            System.out.println("budget.Tier doesn't exist!");
             return;
         }
 
@@ -285,7 +289,7 @@ public class CLI_UI {
             return;
         }
 
-        System.out.println("Choose Row");
+        System.out.println("Choose budget.Row");
 
         String rowInput = scanner.nextLine();
 
@@ -299,7 +303,7 @@ public class CLI_UI {
         }
 
         if(rowIndex < 0 || rowIndex >= tier.getExpenses().size()){
-            System.out.println("Row doesn't exist!");
+            System.out.println("budget.Row doesn't exist!");
             return;
         }
 
