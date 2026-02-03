@@ -13,8 +13,8 @@ public class Tier {
         this.priority = priority;
     }
 
-    public void createRow(String rowName, double rowValue){
-        Row row = new Row(rowName, rowValue);
+    public void createRow(String rowName, double rowValue, String categoryName, int catType, double budgetedAmount){
+        Row row = new Row(rowName, rowValue, categoryName, catType, budgetedAmount);
         expenses.add(row);
         rowCounter++;
     }
