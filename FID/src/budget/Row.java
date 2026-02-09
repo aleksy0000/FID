@@ -3,13 +3,16 @@ package budget;
 public class Row {
     private String rowName;
     private double rowValue;
-    //private int dayDue;
     private Category rowCategory;
+    private int accID;
+    private int dueDay;
 
 
-    public Row(String rowName, double rowValue, String categoryName, int catType, double budgetedAmount){
+    public Row(String rowName, double rowValue, String categoryName, int catType, double budgetedAmount, int accID, int dueDay){
         setRowName(rowName);
         setRowValue(rowValue);
+        setAccID(accID);
+        setDueDay(dueDay);
         if(catType == 1){//if expense
             this.rowCategory = new Category(0, "categoryName", CategoryType.EXPENSE, budgetedAmount);
         }else if(catType == 2){//if income
@@ -43,9 +46,13 @@ public class Row {
         this.rowValue = rowValue;
     }
 
-    /*public void setDayDue(int dayOfTheMonth){
-        this.dayDue = dayOfTheMonth;
-    }*/
+    public void setAccID(int accID){
+        this.accID = accID;
+    }
+
+    public void setDueDay(int dueDay) {
+        this.dueDay = dueDay;
+    }
 
     public void setRowCategory(int categoryID, String categoryName, CategoryType categoryType, double budgetedAmount){
         rowCategory.setCategoryID(categoryID);

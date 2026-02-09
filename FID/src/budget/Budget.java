@@ -51,4 +51,6 @@ public class Budget {
         double totalExpenses = getTotalTierTotals() - totalIncome;
         return totalIncome - totalExpenses;
     }
+
+
 }
