@@ -13,4 +13,8 @@ The purpose of this application is to provide the user with a complete view of t
  - Java - Logic
  - Maven - Build
  - sqlite - Database (maybe postgres later)
- - nodejs - UI (but not until java and sql logic is complete) 
+ - nodejs - UI (but not until java and sql logic is complete)
+
+# Roadmap
+1. finish accounts tracking with values derived from transactions
+2. finish tiered budget
