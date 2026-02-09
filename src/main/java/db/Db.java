@@ -42,15 +42,24 @@ public class Db {
                 st.execute("""
                     CREATE TABLE IF NOT EXISTS transactions(
                         transID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        occurred_at TEXT NOT NULL,
+                        description TEXT
+                    );
+                """);
+
+                st.execute("""
+                    CREATE TABLE IF NOT EXISTS entries(
+                        entryID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        transID INTEGER NOT NULL,
                         accID INTEGER NOT NULL,
                         amount_cents INTEGER NOT NULL,
-                        description TEXT,
-                        occurred_at TEXT NOT NULL,
+                        FOREIGN KEY (transID) REFERENCES transactions(transID) ON DELETE CASCADE,
                         FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE
                     );
                 """);
 
-                st.execute("CREATE INDEX IF NOT EXISTS idx_tx_account ON transactions(accID);");
+                st.execute("CREATE INDEX IF NOT EXISTS idx_entries_account ON entries(accID);");
+                st.execute("CREATE INDEX IF NOT EXISTS idx_entries_trans ON entries(transID);");
             }
         } catch (Exception e) {
             throw new RuntimeException("DB init failed", e);

@@ -1,27 +1,53 @@
 package repo;
 
 import db.Db;
-
 import java.sql.*;
 import java.util.*;
 
 public final class TransactionRepo {
 
-    public long add(long accountId, int amountCents, String description, String occurredAtIso) {
-        String sql = """
-      INSERT INTO transactions(account_id, amount_cents, description, occurred_at)
-      VALUES (?, ?, ?, ?)
+    public static long add(long accountId, long counterAccountId, int amountCents, String description, String occurredAtIso) {
+        String txSql = """
+      INSERT INTO transactions(occurred_at, description)
+      VALUES (?, ?)
     """;
-        try (Connection c = Db.connect();
-             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setLong(1, accountId);
-            ps.setInt(2, amountCents);
-            ps.setString(3, description);
-            ps.setString(4, occurredAtIso);
-            ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) return rs.getLong(1);
-                throw new SQLException("No generated key");
+        String entrySql = """
+      INSERT INTO entries(transID, accID, amount_cents)
+      VALUES (?, ?, ?)
+    """;
+        try (Connection c = Db.connect()) {
+            c.setAutoCommit(false);
+            try (PreparedStatement txPs = c.prepareStatement(txSql, Statement.RETURN_GENERATED_KEYS);
+                 PreparedStatement entryPs = c.prepareStatement(entrySql)) {
+                txPs.setString(1, occurredAtIso);
+                txPs.setString(2, description);
+                txPs.executeUpdate();
+                long transId;
+                try (ResultSet rs = txPs.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        transId = rs.getLong(1);
+                    } else {
+                        throw new SQLException("No generated key");
+                    }
+                }
+
+                entryPs.setLong(1, transId);
+                entryPs.setLong(2, accountId);
+                entryPs.setInt(3, amountCents);
+                entryPs.executeUpdate();
+
+                entryPs.setLong(1, transId);
+                entryPs.setLong(2, counterAccountId);
+                entryPs.setInt(3, -amountCents);
+                entryPs.executeUpdate();
+
+                c.commit();
+                return transId;
+            } catch (SQLException e) {
+                c.rollback();
+                throw e;
+            } finally {
+                c.setAutoCommit(true);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -30,10 +56,11 @@ public final class TransactionRepo {
 
     public List<String> listForAccount(long accountId) {
         String sql = """
-      SELECT id, amount_cents, description, occurred_at
-      FROM transactions
-      WHERE account_id = ?
-      ORDER BY occurred_at DESC, id DESC
+      SELECT t.transID, e.amount_cents, t.description, t.occurred_at
+      FROM entries e
+      JOIN transactions t ON t.transID = e.transID
+      WHERE e.accID = ?
+      ORDER BY t.occurred_at DESC, t.transID DESC, e.entryID DESC
     """;
         try (Connection c = Db.connect();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -42,7 +69,7 @@ public final class TransactionRepo {
                 List<String> out = new ArrayList<>();
                 while (rs.next()) {
                     out.add(
-                            "tx#" + rs.getLong("id")
+                            "tx#" + rs.getLong("transID")
                                     + " amount=" + rs.getInt("amount_cents")
                                     + " desc=" + rs.getString("description")
                                     + " at=" + rs.getString("occurred_at")

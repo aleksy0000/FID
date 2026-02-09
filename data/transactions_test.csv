@@ -1,0 +1,5 @@
+"Date","Description","Reference","Amount","Currency","Balance"
+"2023-10-25 10:30:00","Card Payment - Tesco","Tesco Stores","15.50","EUR","1200.50"
+"2023-10-24 14:00:00","Transfer In - John Doe","Salary","500.00","EUR","1216.00"
+"2023-10-23 09:15:00","ATM Withdrawal","ATM Fee","50.00","EUR","716.00"
+"2023-10-22 18:45:00","Currency Exchange","EUR to USD","100.00","EUR","766.00"

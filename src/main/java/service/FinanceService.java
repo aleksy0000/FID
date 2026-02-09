@@ -12,10 +12,10 @@ public final class FinanceService {
         return accounts.create(name, type, currency);
     }
 
-    public long addTransaction(long accountId, double amount, String description) {
+    public long addTransaction(long accountId, long counterAccountId, double amount, String description) {
         int cents = (int) Math.round(amount * 100.0); // ok for input; DB stores int
         String now = OffsetDateTime.now().toString();
-        return tx.add(accountId, cents, description, now);
+        return tx.add(accountId, counterAccountId, cents, description, now);
     }
 
     public AccountRepo accounts() { return accounts; }
