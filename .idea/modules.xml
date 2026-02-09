@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FID.iml" filepath="$PROJECT_DIR$/FID.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FID/FID_MODULE.iml" filepath="$PROJECT_DIR$/FID/FID_MODULE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fid.iml" filepath="$PROJECT_DIR$/fid.iml" />
     </modules>
   </component>
 </project>
