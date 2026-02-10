@@ -18,7 +18,7 @@ The purpose of this application is to provide the user with a complete view of t
 # Roadmap
 ## Phase 1 - Core (Weeks 1 - 12)
     •	Transaction ledger (double-entry)
-	•	Account model
+	•	~~Account model~~
 	•	Balance computation
 	•	CSV import
 	•	Duplicate detection
