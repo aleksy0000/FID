@@ -6,7 +6,7 @@ import java.util.*;
 
 public final class TransactionRepo {
 
-    public static long add(long accountId, long counterAccountId, int amountCents, String description, String occurredAtIso) {
+    public static long add(String accountId, String counterAccountId, int amountCents, String description, String occurredAtIso) {
         String txSql = """
       INSERT INTO transactions(occurred_at, description)
       VALUES (?, ?)
@@ -32,12 +32,12 @@ public final class TransactionRepo {
                 }
 
                 entryPs.setLong(1, transId);
-                entryPs.setLong(2, accountId);
+                entryPs.setString(2, accountId);
                 entryPs.setInt(3, amountCents);
                 entryPs.executeUpdate();
 
                 entryPs.setLong(1, transId);
-                entryPs.setLong(2, counterAccountId);
+                entryPs.setString(2, counterAccountId);
                 entryPs.setInt(3, -amountCents);
                 entryPs.executeUpdate();
 
@@ -54,7 +54,7 @@ public final class TransactionRepo {
         }
     }
 
-    public List<String> listForAccount(long accountId) {
+    public List<String> listForAccount(String accountId) {
         String sql = """
       SELECT t.transID, e.amount_cents, t.description, t.occurred_at
       FROM entries e
@@ -64,7 +64,7 @@ public final class TransactionRepo {
     """;
         try (Connection c = Db.connect();
              PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setLong(1, accountId);
+            ps.setString(1, accountId);
             try (ResultSet rs = ps.executeQuery()) {
                 List<String> out = new ArrayList<>();
                 while (rs.next()) {

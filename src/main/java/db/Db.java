@@ -31,14 +31,14 @@ public class Db {
                 //accounts table, we are not storing balance here, we derive balance from transactions
                 st.execute("""
                     CREATE TABLE IF NOT EXISTS accounts (
-                        accID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        accID TEXT PRIMARY KEY,
                         accName TEXT NOT NULL,
                         accType TEXT NOT NULL,
                         currency TEXT NOT NULL
                     );
                 """);
 
-                //Transactions table, the single source of truth
+                //Transactions table, the single source of truth, total debits must always equal total credits
                 st.execute("""
                     CREATE TABLE IF NOT EXISTS transactions(
                         transID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +51,7 @@ public class Db {
                     CREATE TABLE IF NOT EXISTS entries(
                         entryID INTEGER PRIMARY KEY AUTOINCREMENT,
                         transID INTEGER NOT NULL,
-                        accID INTEGER NOT NULL,
+                        accID TEXT NOT NULL,
                         amount_cents INTEGER NOT NULL,
                         FOREIGN KEY (transID) REFERENCES transactions(transID) ON DELETE CASCADE,
                         FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE

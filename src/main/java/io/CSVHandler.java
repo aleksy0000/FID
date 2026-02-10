@@ -17,7 +17,7 @@ public class CSVHandler {
     private static final DateTimeFormatter REVOLUT_TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     //Read CSV file line by line
-    public static void readBankStatement(Path pathToFile, int accID, int incomeAccID, int expenseAccID){
+    public static void readBankStatement(Path pathToFile, String accID, String incomeAccID, String expenseAccID){
         try{
             //create a file object
             File file = new File(pathToFile.toUri());
@@ -79,12 +79,12 @@ public class CSVHandler {
     }
 
     private static void processRow(String[] row, Integer balanceDeltaOverride, Map<String, Integer> idx,
-                                   int accID, int incomeAccID, int expenseAccID) {
+                                   String accID, String incomeAccID, String expenseAccID) {
         int deltaCents = balanceDeltaOverride != null ? balanceDeltaOverride : parseAmountCents(row, idx);
         if (deltaCents == 0) {
             return;
         }
-        long counterId = deltaCents > 0 ? incomeAccID : expenseAccID;
+        String counterId = deltaCents > 0 ? incomeAccID : expenseAccID;
         String description = buildDescription(row, idx);
         String occurredAtIso = row[idx.get("date")].trim();
         add(accID, counterId, deltaCents, description, occurredAtIso);

@@ -34,38 +34,46 @@ public final class Main {
                 case "1" -> {
                     System.out.print("Account name: ");
                     String name = sc.nextLine().trim();
-                    System.out.print("Account Type(CURRENT OR SAVINGS:");
-                    String type = sc.nextLine().trim().toUpperCase();
+                    System.out.print("Account Type (CURRENT, SAVINGS, LIABILITY): ");
+                    String typeRaw = sc.nextLine().trim().toUpperCase();
                     System.out.print("Currency (e.g. EUR): ");
-                    String cur = sc.nextLine().trim().toUpperCase();
-                    long id = svc.createAccount(name, type ,cur);
-                    System.out.println("Created account id=" + id);
+                    String curRaw = sc.nextLine().trim().toUpperCase();
+                    try {
+                        svc.createAccount(
+                                name,
+                                accounts.AccountType.valueOf(typeRaw),
+                                accounts.Currency.valueOf(curRaw)
+                        );
+                        System.out.println("Created account.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid account type or currency.");
+                    }
                 }
                 case "2" -> svc.accounts().list().forEach(System.out::println);
                 case "3" -> {
                     System.out.print("Account id: ");
-                    long accId = Long.parseLong(sc.nextLine().trim());
+                    String accId = sc.nextLine().trim();
                     System.out.print("Counter account id: ");
-                    long counterAccId = Long.parseLong(sc.nextLine().trim());
+                    String counterAccId = sc.nextLine().trim();
                     System.out.print("Amount (e.g. -12.50): ");
                     double amount = Double.parseDouble(sc.nextLine().trim());
                     System.out.print("Description: ");
                     String desc = sc.nextLine().trim();
                     long txId = svc.addTransaction(accId, counterAccId, amount, desc);
                     System.out.println("Created transaction id=" + txId);
-                }1
+                }
                 case "4" -> {
                     System.out.print("Account id: ");
-                    long accId = Long.parseLong(sc.nextLine().trim());
+                    String accId = sc.nextLine().trim();
                     svc.transactions().listForAccount(accId).forEach(System.out::println);
                 }
                 case "5" -> {
                     System.out.print("Account id: ");
-                    int accId = Integer.parseInt(sc.nextLine().trim());
+                    String accId = sc.nextLine().trim();
                     System.out.print("Income account id: ");
-                    int incomeAccId = Integer.parseInt(sc.nextLine().trim());
+                    String incomeAccId = sc.nextLine().trim();
                     System.out.print("Expense account id: ");
-                    int expenseAccId = Integer.parseInt(sc.nextLine().trim());
+                    String expenseAccId = sc.nextLine().trim();
                     System.out.print("CSV path (e.g. data/transactions_test.csv): ");
                     Path csvPath = Path.of(sc.nextLine().trim());
                     CSVHandler.readBankStatement(csvPath, accId, incomeAccId, expenseAccId);
