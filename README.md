@@ -32,3 +32,13 @@ The purpose of this application is to provide the user with a complete view of t
 	4.	budgets (monthly category budgets)
 	5.	recurring bills (planned vs actual)
 	6.	basic forecast (end-of-month)
+
+# Invariants
+## Account 
+- Accounts must have a name
+- Accounts must only store metadata
+
+## Transactions
+- Only 1 process can append transactions at a time (critical section)
+- Every process must have an account ID associated with it
+- Total debit must always equal to total credit
