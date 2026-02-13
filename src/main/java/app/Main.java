@@ -148,10 +148,16 @@ public final class Main {
             ORDER BY transactionDate DESC, transactionID DESC
             """;
         String linesSql = """
-            SELECT accID, debit_amount_cents, credit_amount_cents
-            FROM ledgerLines
-            WHERE transactionID = ?
-            ORDER BY rowid
+            SELECT l.accID,
+                   a.accName,
+                   a.accType,
+                   a.currency,
+                   l.debit_amount_cents,
+                   l.credit_amount_cents
+            FROM ledgerLines l
+            LEFT JOIN accounts a ON a.accID = l.accID
+            WHERE l.transactionID = ?
+            ORDER BY l.rowid
             """;
 
         try (Connection c = Db.connect();
@@ -165,23 +171,41 @@ public final class Main {
                 String transactionId = txRs.getString("transactionID");
                 String transactionDate = txRs.getString("transactionDate");
                 String description = txRs.getString("description");
+                long totalDebit = 0;
+                long totalCredit = 0;
 
                 System.out.println();
                 System.out.println("Transaction: " + transactionId);
                 System.out.println("Date: " + transactionDate);
-                System.out.println("Description: " + (description == null ? "" : description));
+                System.out.println("Description: " + (description == null || description.isBlank() ? "(none)" : description));
                 System.out.println("Lines:");
 
                 linesStmt.setString(1, transactionId);
                 try (ResultSet linesRs = linesStmt.executeQuery()) {
                     while (linesRs.next()) {
+                        int debit = linesRs.getInt("debit_amount_cents");
+                        int credit = linesRs.getInt("credit_amount_cents");
+                        totalDebit += debit;
+                        totalCredit += credit;
+
+                        String accountId = linesRs.getString("accID");
+                        String accountName = linesRs.getString("accName");
+                        String accountType = linesRs.getString("accType");
+                        String currency = linesRs.getString("currency");
+
+                        String resolvedName = (accountName == null || accountName.isBlank()) ? "(unknown account)" : accountName;
+                        String resolvedType = (accountType == null || accountType.isBlank()) ? "-" : accountType;
+                        String resolvedCurrency = (currency == null || currency.isBlank()) ? "-" : currency;
+
                         System.out.println(
-                                " - accID=" + linesRs.getString("accID") +
-                                        " | debit=" + linesRs.getInt("debit_amount_cents") +
-                                        " | credit=" + linesRs.getInt("credit_amount_cents")
+                                " - " + resolvedName +
+                                        " [id=" + accountId + ", type=" + resolvedType + ", currency=" + resolvedCurrency + "]" +
+                                        " | debit=" + debit +
+                                        " | credit=" + credit
                         );
                     }
                 }
+                System.out.println("Totals | debit=" + totalDebit + " | credit=" + totalCredit);
             }
 
             if (!any) {
