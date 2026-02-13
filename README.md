@@ -33,12 +33,14 @@ The purpose of this application is to provide the user with a complete view of t
 	5.	recurring bills (planned vs actual)
 	6.	basic forecast (end-of-month)
 
-## Phase 3 - Security and Enterprise Features
+## Phase 3 - Security, Enterprise and Performance Features
 	1. Authentication and Authorization
 	2. Data Protection
 	3. Input & API Security
 	4. Financial Integrity Controls
 	5. Threat Modeling
+	6. Multi-Threading
+
 
 
 # Invariants
