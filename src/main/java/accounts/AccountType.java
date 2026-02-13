@@ -1,11 +1,13 @@
 package accounts;
 
 public enum AccountType {
-    CURRENT, //This account the regular use account
-    INCOME, //This account is for tracking money coming into current CURRENT=DEBIT / INCOME=CREDIT
-    SAVINGS,//This account is for savings from current, SAVINGS=DEBIT / CURRENT=CREDIT
-    EXPENSES, //This account tracks expenses, current=credit / expenses=debit
-    LIABILITY,
-    ASSET,
-    EQUITY
+    //You compute balance based on account type
+    ASSET,      //Debit Increases / Credit Decreases
+    EXPENSES,   //Debit Increases / Credit Decreases
+    EQUITY,     //Credit Increases / Debit Decreases
+    INCOME,     //Credit Increases / Debit Decreases
+    LIABILITY   //Credit Increases / Debit Decreases
+
+    //Assets = Liabilities + Equity
+    //Equity = Assets - Liabilities
 }
