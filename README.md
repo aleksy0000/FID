@@ -16,8 +16,8 @@ The purpose of this application is to provide the user with a complete view of t
  - nodejs - UI (but not until java and sql logic is complete)
 
 # Roadmap
-## Phase 1 - Core (Weeks 1 - 12)
-    •	Transaction ledger (double-entry)
+## Phase 1 - Core 
+    •	~~Transaction ledger (double-entry)~~
 	•	~~Account model~~
 	•	Balance computation
 	•	CSV import
@@ -25,13 +25,15 @@ The purpose of this application is to provide the user with a complete view of t
 	•	Reversal transactions
 	•	Read-only reports (monthly spend, category totals)
 
-## Phase 2 - Useability (Weeks 12 - 24)
+## Phase 2 - Useability 
     1.	dashboard summary (net worth + cashflow + top categories)
 	2.	transaction list with filters + search
 	3.	category rules + merchant cleanup
 	4.	budgets (monthly category budgets)
 	5.	recurring bills (planned vs actual)
 	6.	basic forecast (end-of-month)
+
+## Phase 3 - Security
 
 # Invariants
 ## Account 
