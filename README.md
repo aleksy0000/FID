@@ -47,6 +47,5 @@ The purpose of this application is to provide the user with a complete view of t
 - Accounts must only store metadata
 
 ## Transactions
-- Only 1 process can append transactions at a time (critical section)
-- Every process must have an account ID associated with it
+- Every transaction must have an account ID associated with it
 - Total debit must always equal to total credit
