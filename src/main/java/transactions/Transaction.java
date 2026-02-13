@@ -28,15 +28,15 @@ public class Transaction {
     public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
 
         if(lines.size() < 2){
-            throw new IllegalArgumentException("Journal entry must have at least 2 lines.");
+            throw new IllegalArgumentException("Ledger entry must have at least 2 lines.");
         }
 
         long totalDebits = 0;
         long totalCredits = 0;
 
         for (LedgerLine line : lines) {
-            totalDebits += line.getDebit_amount_cents();
-            totalCredits += line.getCredit_amount_cents();
+            totalDebits += line.debit_amount_cents();
+            totalCredits += line.credit_amount_cents();
         }
 
         if(totalDebits != totalCredits){
