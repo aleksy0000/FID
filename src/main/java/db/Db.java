@@ -41,8 +41,8 @@ public class Db {
                 //Transactions table, the single source of truth, total debits must always equal total credits
                 st.execute("""
                     CREATE TABLE IF NOT EXISTS transactions(
-                        transactionID TEXT PRIMARY KEY,
-                        transactionDate DATE,
+                        transactionID TEXT PRIMARY KEY NOT NULL,
+                        transactionDate DATE NOT NULL,
                         description TEXT,
                     );
                 """);
@@ -55,6 +55,15 @@ public class Db {
                         credit_amount_cents INT,
                         FOREIGN KEY (transactionID) REFERENCES transactions(transactionID) ON DELETE CASCADE,
                         FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE
+                        
+                        CHECK (debit_amount_cents >= 0),
+                        CHECK (credit_amount_cents >= 0),
+                        
+                        CHECK (
+                            (debit_amount_cents = 0 AND credit_amount_cents > 0)
+                            OR
+                            (debit_amount_cents > 0 AND credit_amount_cents = 0)
+                        )
                     );
                 """);
 

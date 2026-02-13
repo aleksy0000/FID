@@ -1,17 +1,24 @@
 package io;
 
+import com.opencsv.CSVReader;
+import repo.TransactionRepo;
+import service.FinanceService;
+import transactions.LedgerLine;
+import transactions.Transaction;
+
 import java.io.File;
 import java.io.FileReader;
-import com.opencsv.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static repo.TransactionRepo.add;
 
 public class CSVHandler {
     private static final DateTimeFormatter REVOLUT_TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -84,10 +91,37 @@ public class CSVHandler {
         if (deltaCents == 0) {
             return;
         }
+
         String counterId = deltaCents > 0 ? incomeAccID : expenseAccID;
         String description = buildDescription(row, idx);
         String occurredAtIso = row[idx.get("date")].trim();
-        add(accID, counterId, deltaCents, description, occurredAtIso);
+
+        insertTransaction(accID, counterId, deltaCents, description, occurredAtIso);
+    }
+
+    private static void insertTransaction(String primaryAccId, String counterAccId, int deltaCents, String description, String occurredAtIso) {
+        int amount = Math.abs(deltaCents);
+
+        List<LedgerLine> lines = new ArrayList<>(2);
+        if (deltaCents > 0) {
+            lines.add(new LedgerLine(primaryAccId, amount, 0));
+            lines.add(new LedgerLine(counterAccId, 0, amount));
+        } else {
+            lines.add(new LedgerLine(primaryAccId, 0, amount));
+            lines.add(new LedgerLine(counterAccId, amount, 0));
+        }
+
+        Transaction transaction = FinanceService.newTransaction(parseOccurredAt(occurredAtIso), description, lines);
+        TransactionRepo.addTransactionToDB(transaction);
+    }
+
+    private static Date parseOccurredAt(String occurredAtIso) {
+        try {
+            LocalDateTime localDateTime = LocalDateTime.parse(occurredAtIso, REVOLUT_TS);
+            return new Date(Timestamp.valueOf(localDateTime).getTime());
+        } catch (Exception ignored) {
+            return new Date();
+        }
     }
 
     private static Map<String, Integer> headerIndex(String[] header) {

@@ -70,4 +70,25 @@ public class Transaction {
     public long getTotalDebitsInCents() {
         return totalDebits;
     }
+
+    public void assertBalance(){
+        if (ledgerLines == null || ledgerLines.size() < 2) {
+            throw new IllegalStateException("Transaction must have at least 2 ledger lines.");
+        }
+
+        long totalDebits = 0;
+        long totalCredits = 0;
+
+        for (LedgerLine line : ledgerLines) {
+            totalDebits += line.debit_amount_cents();
+            totalCredits += line.credit_amount_cents();
+        }
+
+        if (totalDebits != totalCredits) {
+            throw new IllegalStateException(
+                    "Unbalanced transaction. Debits=" + totalDebits +
+                            " Credits=" + totalCredits
+            );
+        }
+    }
 }

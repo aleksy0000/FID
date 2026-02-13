@@ -1,52 +1,58 @@
 package repo;
 
 import db.Db;
+import transactions.Transaction;
+
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public final class TransactionRepo {
 
-    public static long addTransaction(String accountId, String counterAccountId, int amountCents, String description, String occurredAtIso) {
-        String txSql = """
-      INSERT INTO transactions(occurred_at, description)
-      VALUES (?, ?)
-    """;
-        String entrySql = """
-      INSERT INTO entries(transID, accID, amount_cents)
+    public static void addTransactionToDB(Transaction transaction) {
+
+        transaction.assertBalance();
+
+        String transactionSql = """
+      INSERT INTO transactions(transactionID, transactionDate, description)
       VALUES (?, ?, ?)
+    """;
+        String ledgerLineSql = """
+      INSERT INTO ledgerLines(accID, transactionID, debit_amount_cents, credit_amount_cents)
+      VALUES (?, ?, ?, ?)
     """;
         try (Connection c = Db.connect()) {
             c.setAutoCommit(false);
-            try (PreparedStatement txPs = c.prepareStatement(txSql, Statement.RETURN_GENERATED_KEYS);
-                 PreparedStatement entryPs = c.prepareStatement(entrySql)) {
-                txPs.setString(1, occurredAtIso);
-                txPs.setString(2, description);
-                txPs.executeUpdate();
-                long transId;
-                try (ResultSet rs = txPs.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        transId = rs.getLong(1);
-                    } else {
-                        throw new SQLException("No generated key");
-                    }
+
+            try(
+            PreparedStatement txStmt = c.prepareStatement(transactionSql);
+            PreparedStatement lineStmt = c.prepareStatement(ledgerLineSql);)
+            {
+
+                //insert transaction header
+                txStmt.setString(1, transaction.getTransactionID());
+                txStmt.setString(2, transaction.getTransactionDate().toString());
+                txStmt.setString(3, transaction.getDescription());
+
+                txStmt.executeUpdate();
+
+                //insert ledger lines (batch)
+                for (int i = 0; i < transaction.getLedgerLines().size(); i++) {
+                    lineStmt.setString(1, transaction.getLedgerLines().get(i).accID());
+                    lineStmt.setString(2, transaction.getTransactionID());
+                    lineStmt.setLong(3, transaction.getLedgerLines().get(i).debit_amount_cents());
+                    lineStmt.setLong(4, transaction.getLedgerLines().get(i).credit_amount_cents());
+
+                    lineStmt.addBatch();
                 }
 
-                entryPs.setLong(1, transId);
-                entryPs.setString(2, accountId);
-                entryPs.setInt(3, amountCents);
-                entryPs.executeUpdate();
-
-                entryPs.setLong(1, transId);
-                entryPs.setString(2, counterAccountId);
-                entryPs.setInt(3, -amountCents);
-                entryPs.executeUpdate();
+                lineStmt.executeBatch();
 
                 c.commit();
-                return transId;
-            } catch (SQLException e) {
+            }catch (SQLException e){
                 c.rollback();
                 throw e;
-            } finally {
+            }finally{
                 c.setAutoCommit(true);
             }
         } catch (SQLException e) {
@@ -54,31 +60,4 @@ public final class TransactionRepo {
         }
     }
 
-    public List<String> listForAccount(String accountId) {
-        String sql = """
-      SELECT t.transID, e.amount_cents, t.description, t.occurred_at
-      FROM entries e
-      JOIN transactions t ON t.transID = e.transID
-      WHERE e.accID = ?
-      ORDER BY t.occurred_at DESC, t.transID DESC, e.entryID DESC
-    """;
-        try (Connection c = Db.connect();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, accountId);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<String> out = new ArrayList<>();
-                while (rs.next()) {
-                    out.add(
-                            "tx#" + rs.getLong("transID")
-                                    + " amount=" + rs.getInt("amount_cents")
-                                    + " desc=" + rs.getString("description")
-                                    + " at=" + rs.getString("occurred_at")
-                    );
-                }
-                return out;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
