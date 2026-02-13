@@ -38,11 +38,12 @@ public final class Main {
                     case "1" -> createAccount(scanner, financeService);
                     case "2" -> listAccounts(financeService);
                     case "3" -> createAndInsertTransaction(scanner);
+                    case "4" -> listTransactions();
                     case "0" -> {
                         running = false;
                         System.out.println("Exiting.");
                     }
-                    default -> System.out.println("Unknown option. Choose 0, 1, 2, or 3.");
+                    default -> System.out.println("Unknown option. Choose 0, 1, 2, 3, or 4.");
                 }
             } catch (Exception e) {
                 System.out.println("Operation failed: " + e.getMessage());
@@ -56,6 +57,7 @@ public final class Main {
         System.out.println("1) Create account");
         System.out.println("2) List accounts");
         System.out.println("3) Create transaction (+2 ledger lines) and insert");
+        System.out.println("4) List transactions");
         System.out.println("0) Exit");
         System.out.print("Choose option: ");
     }
@@ -136,6 +138,57 @@ public final class Main {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to validate account ID", e);
+        }
+    }
+
+    private static void listTransactions() {
+        String txSql = """
+            SELECT transactionID, transactionDate, description
+            FROM transactions
+            ORDER BY transactionDate DESC, transactionID DESC
+            """;
+        String linesSql = """
+            SELECT accID, debit_amount_cents, credit_amount_cents
+            FROM ledgerLines
+            WHERE transactionID = ?
+            ORDER BY rowid
+            """;
+
+        try (Connection c = Db.connect();
+             PreparedStatement txStmt = c.prepareStatement(txSql);
+             ResultSet txRs = txStmt.executeQuery();
+             PreparedStatement linesStmt = c.prepareStatement(linesSql)) {
+
+            boolean any = false;
+            while (txRs.next()) {
+                any = true;
+                String transactionId = txRs.getString("transactionID");
+                String transactionDate = txRs.getString("transactionDate");
+                String description = txRs.getString("description");
+
+                System.out.println();
+                System.out.println("Transaction: " + transactionId);
+                System.out.println("Date: " + transactionDate);
+                System.out.println("Description: " + (description == null ? "" : description));
+                System.out.println("Lines:");
+
+                linesStmt.setString(1, transactionId);
+                try (ResultSet linesRs = linesStmt.executeQuery()) {
+                    while (linesRs.next()) {
+                        System.out.println(
+                                " - accID=" + linesRs.getString("accID") +
+                                        " | debit=" + linesRs.getInt("debit_amount_cents") +
+                                        " | credit=" + linesRs.getInt("credit_amount_cents")
+                        );
+                    }
+                }
+            }
+
+            if (!any) {
+                System.out.println("No transactions found.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to list transactions", e);
         }
     }
 

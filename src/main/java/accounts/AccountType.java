@@ -3,5 +3,8 @@ package accounts;
 public enum AccountType {
     CURRENT,
     SAVINGS,
-    LIABILITY
+    LIABILITY,
+    EXPENSES,
+    ASSET,
+    EQUITY
 }
