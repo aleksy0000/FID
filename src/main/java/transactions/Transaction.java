@@ -25,7 +25,7 @@ public class Transaction {
         this.totalDebits = totalDebits;
     }
 
-    public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
+    /*public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
 
         if(lines.size() < 2){
             throw new IllegalArgumentException("Ledger entry must have at least 2 lines.");
@@ -45,7 +45,7 @@ public class Transaction {
 
         return new Transaction(transactionDate, description, lines, totalDebits, totalCredits);
 
-    }
+    }*/
 
     public String getTransactionID(){
         return transactionID;

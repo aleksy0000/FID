@@ -41,19 +41,19 @@ public class Db {
                 //Transactions table, the single source of truth, total debits must always equal total credits
                 st.execute("""
                     CREATE TABLE IF NOT EXISTS transactions(
-                        transID INTEGER PRIMARY KEY AUTOINCREMENT,
-                        occurred_at TEXT NOT NULL,
-                        description TEXT
+                        transactionID TEXT PRIMARY KEY,
+                        transactionDate DATE,
+                        description TEXT,
                     );
                 """);
 
                 st.execute("""
-                    CREATE TABLE IF NOT EXISTS entries(
-                        entryID INTEGER PRIMARY KEY AUTOINCREMENT,
-                        transID INTEGER NOT NULL,
-                        accID TEXT NOT NULL,
-                        amount_cents INTEGER NOT NULL,
-                        FOREIGN KEY (transID) REFERENCES transactions(transID) ON DELETE CASCADE,
+                    CREATE TABLE IF NOT EXISTS ledgerLines(
+                        accID TEXT,
+                        transactionID TEXT,
+                        debit_amount_cents INT,
+                        credit_amount_cents INT,
+                        FOREIGN KEY (transactionID) REFERENCES transactions(transactionID) ON DELETE CASCADE,
                         FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE
                     );
                 """);

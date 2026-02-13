@@ -6,7 +6,7 @@ import java.util.*;
 
 public final class TransactionRepo {
 
-    public static long add(String accountId, String counterAccountId, int amountCents, String description, String occurredAtIso) {
+    public static long addTransaction(String accountId, String counterAccountId, int amountCents, String description, String occurredAtIso) {
         String txSql = """
       INSERT INTO transactions(occurred_at, description)
       VALUES (?, ?)
