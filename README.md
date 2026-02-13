@@ -13,10 +13,10 @@ The purpose of this application is to provide the user with a complete view of t
  - Java - Logic
  - Maven - Build
  - sqlite - Database (maybe postgres later)
- - nodejs - UI (but not until java and sql logic is complete)
+ - nextjs - UI (but not until java and sql logic is complete)
 
 # Roadmap
-## Phase 1 - Core 
+## Phase 1 - Core (Java & SQLite)
     •	~~Transaction ledger (double-entry)~~
 	•	~~Account model~~
 	•	Balance computation
@@ -25,7 +25,7 @@ The purpose of this application is to provide the user with a complete view of t
 	•	Reversal transactions
 	•	Read-only reports (monthly spend, category totals)
 
-## Phase 2 - Minimum Viable Product
+## Phase 2 - Minimum Viable Product (REST API + Next.js)
     1.	dashboard summary (net worth + cashflow + top categories)
 	2.	transaction list with filters + search
 	3.	category rules + merchant cleanup
