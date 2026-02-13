@@ -25,7 +25,7 @@ The purpose of this application is to provide the user with a complete view of t
 	•	Reversal transactions
 	•	Read-only reports (monthly spend, category totals)
 
-## Phase 2 - Useability 
+## Phase 2 - Minimum Viable Product
     1.	dashboard summary (net worth + cashflow + top categories)
 	2.	transaction list with filters + search
 	3.	category rules + merchant cleanup
@@ -33,7 +33,13 @@ The purpose of this application is to provide the user with a complete view of t
 	5.	recurring bills (planned vs actual)
 	6.	basic forecast (end-of-month)
 
-## Phase 3 - Security
+## Phase 3 - Security and Enterprise Features
+	1. Authentication and Authorization
+	2. Data Protection
+	3. Input & API Security
+	4. Financial Integrity Controls
+	5. Threat Modeling
+
 
 # Invariants
 ## Account 
