@@ -16,7 +16,7 @@ The purpose of this application is to provide the user with a complete view of t
  - nextjs - UI (but not until java and sql logic is complete)
 
 # Roadmap
-## Phase 1 - Core (Java & SQLite)
+## Phase 1 - Core (Java & SQLite) (alpha)
     •	~~Transaction ledger (double-entry)~~
 	•	~~Account model~~
 	•	Balance computation
