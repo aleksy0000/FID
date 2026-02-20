@@ -25,28 +25,6 @@ public class Transaction {
         this.totalDebits = totalDebits;
     }
 
-    /*public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
-
-        if(lines.size() < 2){
-            throw new IllegalArgumentException("Ledger entry must have at least 2 lines.");
-        }
-
-        long totalDebits = 0;
-        long totalCredits = 0;
-
-        for (LedgerLine line : lines) {
-            totalDebits += line.debit_amount_cents();
-            totalCredits += line.credit_amount_cents();
-        }
-
-        if(totalDebits != totalCredits){
-            throw new IllegalArgumentException("Unbalanced Entry: Debits do not equal to credits");
-        }
-
-        return new Transaction(transactionDate, description, lines, totalDebits, totalCredits);
-
-    }*/
-
     public String getTransactionID(){
         return transactionID;
     }

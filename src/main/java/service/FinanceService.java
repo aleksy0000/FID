@@ -34,10 +34,6 @@ public final class FinanceService {
     //create new transaction, this will hold the 2 ledger line rows
     public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
 
-        if(lines.size() < 2){
-            throw new IllegalArgumentException("Ledger entry must have at least 2 lines.");
-        }
-
         long totalDebits = 0;
         long totalCredits = 0;
 
@@ -46,11 +42,7 @@ public final class FinanceService {
             totalCredits += line.credit_amount_cents();
         }
 
-        if(totalDebits != totalCredits){
-            throw new IllegalArgumentException("Unbalanced Entry: Debits do not equal to credits");
-        }
-
-        return new Transaction(transactionDate, description, lines, totalDebits, totalCredits);
+        return new Transaction(transactionDate, description, lines, totalCredits, totalDebits);
 
     }
 
