@@ -13,10 +13,10 @@ The purpose of this application is to provide the user with a complete view of t
  - Java - Logic
  - Maven - Build
  - sqlite - Database (maybe postgres later)
- - nodejs - UI (but not until java and sql logic is complete)
+ - nextjs - UI (but not until java and sql logic is complete)
 
 # Roadmap
-## Phase 1 - Core 
+## Phase 1 - Core (Java & SQLite) (alpha)
     •	~~Transaction ledger (double-entry)~~
 	•	~~Account model~~
 	•	Balance computation
@@ -25,7 +25,7 @@ The purpose of this application is to provide the user with a complete view of t
 	•	Reversal transactions
 	•	Read-only reports (monthly spend, category totals)
 
-## Phase 2 - Minimum Viable Product
+## Phase 2 - Minimum Viable Product (REST API + Next.js) (beta release)
     1.	dashboard summary (net worth + cashflow + top categories)
 	2.	transaction list with filters + search
 	3.	category rules + merchant cleanup
@@ -33,12 +33,14 @@ The purpose of this application is to provide the user with a complete view of t
 	5.	recurring bills (planned vs actual)
 	6.	basic forecast (end-of-month)
 
-## Phase 3 - Security and Enterprise Features
+## Phase 3 - Security, Enterprise and Performance Features (full v1 release)
 	1. Authentication and Authorization
 	2. Data Protection
 	3. Input & API Security
 	4. Financial Integrity Controls
 	5. Threat Modeling
+	6. Multi-Threading
+
 
 
 # Invariants
@@ -47,6 +49,5 @@ The purpose of this application is to provide the user with a complete view of t
 - Accounts must only store metadata
 
 ## Transactions
-- Only 1 process can append transactions at a time (critical section)
-- Every process must have an account ID associated with it
+- Every transaction must have an account ID associated with it
 - Total debit must always equal to total credit
