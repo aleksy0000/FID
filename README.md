@@ -39,8 +39,8 @@ This roadmap was generated using ChatGPT, prompted to be relevant to my lower le
 ### Implementation
 
 #### Ledger Engine
-- double-entry transaction ledger
-- account model
+- ~~double-entry transaction ledger~~
+- ~~account model~~
 - balance computation
 - reversal transactions
 - immutable transaction history
