@@ -1,5 +1,5 @@
 # Financial Independence Dashboard (a systems-oriented financial data processing platform)
-The purpose of this application is to provide the user with a complete view of their finances on one screen.
+The purpose of this application is to provide the user with a complete view of their finances on one screen while learning various engineering competencies.
 
 # Learning Outcomes
 1. Systems Architecture & Data Integrity - Design and implement a reliable financial data system with a single source of truth
