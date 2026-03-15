@@ -25,6 +25,9 @@ This roadmap focuses on building engineering competencies relevant to:
 - embedded-adjacent software
 - reliable data processing systems
 
+This roadmap was generated using ChatGPT, prompted to be relevant to my lower level goals. I used AI to generate this roadmap because I don't fully know the extent of features required in such a system, as I don't have a client to ask, I ask AI. Everything is subject to change.
+
+
 ## Stage 1 - Deterministic Data Systems
 
 ### Learning Outcomes
