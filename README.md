@@ -1,13 +1,16 @@
-# Financial Independence Dashboard
+# Financial Independence Dashboard (a systems-oriented financial data processing platform)
 The purpose of this application is to provide the user with a complete view of their finances on one screen.
 
-# MVP Scope (Budget / Accounts / Investments)
- - Tiered Budget (Customizable tiers, these tiers could be in order of importance for example)
- - Accounts Tracking (Balance derived from transactions)
- - Bank Statement CSV import -> transactions table in db
- - Cross examination between budget and actual spending (through bank statement CSV)
- - Spending allocation pie (e.g., 40% Housing, 30% Bills, 30% Available)
- - Investments Tracking (Trading212 API/CSVs)
+# Learning Outcomes
+1. Systems Architecture & Data Integrity - Design and implement a reliable financial data system with a single source of truth
+2. File Parsing and Data Pipelines - Build a robust pipeline that ingests raw financial data (bank csvs)
+3. State Management & Deterministic Systems - Design the application as a state machine where the financial state evolves through transactions.
+4. Performance & Resource Efficiency - Optimize queries, storage, and processing.
+5. Observability & Debugging - Build strong debugging tools into the system.
+6. Security & Data Protection - Handle sensitive financial data safely.
+7. API Design & Interoperability - Expose system functionality via APIs.
+8. Fault Tolerance & Reliability - Design the system to survive failures.
+9. Software Engineering Discipline - Apply rigorous engineering processes.
 
 # Tech Stack
  - Java - Logic
@@ -15,39 +18,39 @@ The purpose of this application is to provide the user with a complete view of t
  - sqlite - Database (maybe postgres later)
  - nextjs - UI (but not until java and sql logic is complete)
 
-# Roadmap
-## Phase 1 - Core (Java & SQLite) (alpha)
-    •	~~Transaction ledger (double-entry)~~
-	•	~~Account model~~
-	•	Balance computation
-	•	CSV import
-	•	Duplicate detection
-	•	Reversal transactions
-	•	Read-only reports (monthly spend, category totals)
+# FID Learning Roadmap
+This roadmap focuses on building engineering competencies relevant to:
+- systems engineering
+- network infrastructure
+- embedded-adjacent software
+- reliable data processing systems
 
-## Phase 2 - Minimum Viable Product (REST API + Next.js) (beta release)
-    1.	dashboard summary (net worth + cashflow + top categories)
-	2.	transaction list with filters + search
-	3.	category rules + merchant cleanup
-	4.	budgets (monthly category budgets)
-	5.	recurring bills (planned vs actual)
-	6.	basic forecast (end-of-month)
+## Stage 1 - Deterministic Data Systems
 
-## Phase 3 - Security, Enterprise and Performance Features (full v1 release)
-	1. Authentication and Authorization
-	2. Data Protection
-	3. Input & API Security
-	4. Financial Integrity Controls
-	5. Threat Modeling
-	6. Multi-Threading
+### Learning Outcomes
+- Model deterministic system state
+- Implement strong data integrity guarantees
+- Design domain invariants
+- Build replayable systems
 
+### Implementation
 
+#### Ledger Engine
+- double-entry transaction ledger
+- account model
+- balance computation
+- reversal transactions
+- immutable transaction history
 
-# Invariants
-## Account 
-- Accounts must have a name
-- Accounts must only store metadata
+#### System Invariants
+- enforce ledger rules
+- prevent invalid states
+- validation layer before transaction commit
+- i.e., assets = liabilities + equity
 
-## Transactions
-- Every transaction must have an account ID associated with it
-- Total debit must always equal to total credit
+#### Deterministic State
+- system state derived entirely from transactions
+- balances computed from ledger replay
+- reproducible financial state
+
+---
