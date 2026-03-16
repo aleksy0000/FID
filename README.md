@@ -18,6 +18,12 @@ The purpose of this application is to provide the user with a complete view of t
  - sqlite - Database (maybe postgres later)
  - nextjs - UI (but not until java and sql logic is complete)
 
+# Book Stack
+- Designing Data Intensive Applications by Martin Kleppman
+- Effective Java by Joshua Bloch
+- Test-Driven Development By Example by Kent Beck
+- Practical Unit Testing with JUnit and Mockito
+
 # FID Learning Roadmap (Details subject to change)
 This roadmap focuses on building engineering competencies relevant to:
 - systems engineering
