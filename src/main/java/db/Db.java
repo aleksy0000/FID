@@ -3,6 +3,14 @@ package db;
 import java.nio.file.*;
 import java.sql.*;
 
+/**
+ * Handles database connection and schema initialisation.
+ *
+ * Usage:
+ * Db db = new Db("db_folder","db_file");
+ * db.init();
+ * Connection conn = db.connect();
+ */
 public class Db {
     private static String DB_DIR;
     private static String URL;
@@ -10,12 +18,14 @@ public class Db {
     public Db(String DB_DIR, String DB_FILE){
         Db.DB_DIR = DB_DIR;
         URL = "jdbc:sqlite:" + DB_DIR + "/" + DB_FILE;
-
-
-
     }
 
-    //connect to db
+    /**
+     * <p> This method connects us to the database</p>
+     *
+     * @return SQLlite connection
+     * @throws SQLException
+     */
     public static Connection connect() throws SQLException {
 
         Connection c = DriverManager.getConnection(URL);
@@ -27,7 +37,9 @@ public class Db {
         return c;
     }
 
-    //initialise schema
+    /**
+     * <p> Initialises Schema </p>
+     */
     public static void init(){
         try{
             Files.createDirectories(Paths.get(DB_DIR));
