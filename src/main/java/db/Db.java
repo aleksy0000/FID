@@ -4,11 +4,16 @@ import java.nio.file.*;
 import java.sql.*;
 
 public class Db {
-    private static final String DB_DIR = "data";
-    private static final String DB_FILE = "app.db";
-    private static final String URL = "jdbc:sqlite:" + DB_DIR + "/" + DB_FILE;
+    private static String DB_DIR;
+    private static String URL;
 
-    private Db(){}
+    public Db(String DB_DIR, String DB_FILE){
+        Db.DB_DIR = DB_DIR;
+        URL = "jdbc:sqlite:" + DB_DIR + "/" + DB_FILE;
+
+
+
+    }
 
     //connect to db
     public static Connection connect() throws SQLException {
