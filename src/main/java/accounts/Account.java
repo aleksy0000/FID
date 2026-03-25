@@ -1,5 +1,9 @@
 /*
     Accounts are for metadata only, they define identity, rules and lifecycle.
+
+    test cases:
+    - A random ID should be generated upon creation of class
+    - a class should not be able to be created without a name, type and currency
 */
 package accounts;
 

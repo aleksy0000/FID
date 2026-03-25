@@ -43,7 +43,7 @@ public class Db {
                     CREATE TABLE IF NOT EXISTS transactions(
                         transactionID TEXT PRIMARY KEY NOT NULL,
                         transactionDate DATE NOT NULL,
-                        description TEXT,
+                        description TEXT
                     );
                 """);
 
@@ -54,7 +54,7 @@ public class Db {
                         debit_amount_cents INT,
                         credit_amount_cents INT,
                         FOREIGN KEY (transactionID) REFERENCES transactions(transactionID) ON DELETE CASCADE,
-                        FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE
+                        FOREIGN KEY (accID) REFERENCES accounts(accID) ON DELETE CASCADE,
                         
                         CHECK (debit_amount_cents >= 0),
                         CHECK (credit_amount_cents >= 0),
@@ -67,8 +67,8 @@ public class Db {
                     );
                 """);
 
-                st.execute("CREATE INDEX IF NOT EXISTS idx_entries_account ON entries(accID);");
-                st.execute("CREATE INDEX IF NOT EXISTS idx_entries_trans ON entries(transID);");
+                st.execute("CREATE INDEX IF NOT EXISTS idx_ledgerLines_account ON ledgerLines(accID);");
+                st.execute("CREATE INDEX IF NOT EXISTS idx_ledgerLines_trans ON ledgerLines(transactionID);");
             }
         } catch (Exception e) {
             throw new RuntimeException("DB init failed", e);

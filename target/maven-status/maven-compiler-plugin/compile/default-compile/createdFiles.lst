@@ -3,6 +3,7 @@ db/Db.class
 repo/AccountRepo.class
 budget/Tier.class
 transactions/LedgerLine.class
+service/BalanceService.class
 service/FinanceService.class
 budget/Budget.class
 app/Main.class
