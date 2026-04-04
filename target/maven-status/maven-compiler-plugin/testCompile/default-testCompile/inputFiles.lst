@@ -1,1 +1,6 @@
+/home/Aleksy/IdeaProjects/FID/FID/src/test/java/repoTest/AccountRepoTest.java
 /home/Aleksy/IdeaProjects/FID/FID/src/test/java/accountsTest/AccountTest.java
+/home/Aleksy/IdeaProjects/FID/FID/src/test/java/transactionsTest/TransactionTest.java
+/home/Aleksy/IdeaProjects/FID/FID/src/test/java/repoTest/TransactionRepoTest.java
+/home/Aleksy/IdeaProjects/FID/FID/src/test/java/serviceTest/FinanceServiceTest.java
+/home/Aleksy/IdeaProjects/FID/FID/src/test/java/dbTest/DbTest.java

@@ -1,2 +1,6 @@
-accountsTest/AccountTest.class
+serviceTest/FinanceServiceTest.class
+transactionsTest/TransactionTest.class
 dbTest/DbTest.class
+repoTest/AccountRepoTest.class
+accountsTest/AccountTest.class
+repoTest/TransactionRepoTest.class

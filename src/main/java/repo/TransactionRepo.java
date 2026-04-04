@@ -60,9 +60,4 @@ public final class TransactionRepo {
         }
     }
 
-    //return account balance from database
-    /*public static int getAccountBalance(String accID){
-
-    }*/
-
 }

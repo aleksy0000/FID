@@ -4,6 +4,7 @@ import accounts.Account;
 import accounts.AccountType;
 import accounts.Currency;
 import db.Db;
+import repo.BalanceRepo;
 import repo.TransactionRepo;
 import service.FinanceService;
 import transactions.LedgerLine;
@@ -24,8 +25,8 @@ public final class Main {
     private Main() {}
 
     public static void main(String[] args) {
-        ensureSchema();
-
+        new Db("data","app.db");
+        Db.init();
         FinanceService financeService = new FinanceService();
         Scanner scanner = new Scanner(System.in);
 
@@ -39,11 +40,12 @@ public final class Main {
                     case "2" -> listAccounts(financeService);
                     case "3" -> createAndInsertTransaction(scanner);
                     case "4" -> listTransactions();
+                    case "5" -> showAccountBalance(scanner);
                     case "0" -> {
                         running = false;
                         System.out.println("Exiting.");
                     }
-                    default -> System.out.println("Unknown option. Choose 0, 1, 2, 3, or 4.");
+                    default -> System.out.println("Unknown option. Choose 0, 1, 2, 3, 4, or 5.");
                 }
             } catch (Exception e) {
                 System.out.println("Operation failed: " + e.getMessage());
@@ -58,6 +60,7 @@ public final class Main {
         System.out.println("2) List accounts");
         System.out.println("3) Create transaction (+2 ledger lines) and insert");
         System.out.println("4) List transactions");
+        System.out.println("5) Show account balance");
         System.out.println("0) Exit");
         System.out.print("Choose option: ");
     }
@@ -214,6 +217,17 @@ public final class Main {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to list transactions", e);
         }
+    }
+
+    private static void showAccountBalance(Scanner scanner) {
+        System.out.print("Account ID: ");
+        String accountId = scanner.nextLine().trim();
+        if (!accountExists(accountId)) {
+            throw new IllegalArgumentException("Account does not exist: " + accountId);
+        }
+
+        int balance = BalanceRepo.getAccountBalance(accountId);
+        System.out.println("Balance for " + accountId + ": " + balance + " cents");
     }
 
     private static void ensureSchema() {
