@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="dbTest.DbTest" time="0.299" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="repoTest.AccountRepoTest" time="0.761" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,14 +59,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="connect_should_enable_foreign_keys" classname="dbTest.DbTest" time="0.161">
-    <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-]]></system-err>
-  </testcase>
-  <testcase name="connect_returns_open_connection" classname="dbTest.DbTest" time="0.005"/>
-  <testcase name="connect_shouldAllowExecutingSql" classname="dbTest.DbTest" time="0.007"/>
-  <testcase name="init_shouldCreateColumns" classname="dbTest.DbTest" time="0.115"/>
-  <testcase name="init_shouldCreateTables" classname="dbTest.DbTest" time="0.011"/>
+  <testcase name="testInsertDuplicateAccIDThrows" classname="repoTest.AccountRepoTest" time="0.171"/>
+  <testcase name="testEmptyTableReturnsEmptyList" classname="repoTest.AccountRepoTest" time="0.047"/>
+  <testcase name="testInsertAccountRecord" classname="repoTest.AccountRepoTest" time="0.193"/>
+  <testcase name="testAccListToStringMultipleRecords" classname="repoTest.AccountRepoTest" time="0.348"/>
 </testsuite>

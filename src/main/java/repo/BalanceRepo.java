@@ -4,7 +4,7 @@
     Purpose -> BalanceRepo.java handles all operations related to account balance.
 
     Functionality:
-    - getAcountBalance(String accID) -> returns balance of account with the same accID that was passed to the method - used for quick lookup of balance
+    - getAccountBalance(String accID) -> returns balance of account with the same accID that was passed to the method - used for quick lookup of balance
  */
 package repo;
 

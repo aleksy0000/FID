@@ -14,7 +14,7 @@ public class DbTest {
     Path tempDir;
 
     private Db createTestDb(){
-        return new Db(tempDir.toString(), "test.db");
+        return new Db("data", "test.db");
     }
 
     //connect() tests
