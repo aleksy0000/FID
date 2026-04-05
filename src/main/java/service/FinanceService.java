@@ -1,3 +1,14 @@
+/*
+    FinanceService.java
+
+    Purpose: FinanceService.java is a service layer coordinating Accounts and Transactions in the Business Layer with the Accounts and Transactions in the Data Layer.
+
+    Functionality:
+    - public void createNewAccountAndInsertIntoDB(String name, AccountType type, Currency currency) -> creates new account object and insert it into the database.
+    - public List<LedgerLine> createLedgerLine(String accID, int debit_amount_cents, int credit_amount_cents) -> Creates an ArrayList that holds two ledgerLine records that will be passed to form one transaction
+    - public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines) -> Creates a new transaction with the ledgerLine ArrayList created in createLedgerLine()
+ */
+
 package service;
 
 import accounts.Account;
@@ -16,22 +27,29 @@ public final class FinanceService {
     private final AccountRepo accounts = new AccountRepo();
     private final TransactionRepo tx = new TransactionRepo();
 
-    public void createAccount(String name, AccountType type, Currency currency) {
+    //Creates a new account object and passes its data to insertAccountRecord() which inserts it into the database.
+    public void createNewAccountAndInsertIntoDB(String name, AccountType type, Currency currency) {
         Account newAccount = new Account(name, type, currency );
 
-        accounts.createTable(newAccount.getAccID(), newAccount.getAccName(), newAccount.getAccTypeString(), newAccount.getCurrencyString());
+        accounts.insertAccountRecord(newAccount.getAccID(), newAccount.getAccName(), newAccount.getAccTypeString(), newAccount.getCurrencyString());
     }
 
-    //create new ledger line, must be 2 rows, where debit = credit
+    //create new ledger line, must be 2 rows, where debit = credit, returns the ArrayList with the 2 rows.
     public List<LedgerLine> createLedgerLine(String accID, int debit_amount_cents, int credit_amount_cents){
+
+        if(debit_amount_cents != credit_amount_cents) {
+            throw new IllegalArgumentException("debit must equal credit");
+        }
+
         List<LedgerLine> ledgerLines = new ArrayList<>();
-        ledgerLines.add(new LedgerLine(accID,debit_amount_cents,0));
-        ledgerLines.add(new LedgerLine(accID,0,credit_amount_cents));
+        ledgerLines.add(new LedgerLine(accID, debit_amount_cents, 0));
+        ledgerLines.add(new LedgerLine(accID, 0, credit_amount_cents));
 
         return ledgerLines;
+
     }
 
-    //create new transaction, this will hold the 2 ledger line rows
+    //create new transaction, this will hold the 2 ledger line rows created in createLedgerLine()
     public static Transaction newTransaction(Date transactionDate, String description, List<LedgerLine> lines){
 
         long totalDebits = 0;
@@ -46,7 +64,7 @@ public final class FinanceService {
 
     }
 
-
+    //I'm not sure what this is for...
     public AccountRepo accounts() { return accounts; }
     public TransactionRepo transactions() { return tx; }
 }

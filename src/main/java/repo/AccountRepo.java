@@ -16,7 +16,7 @@ import java.util.*;
 
 public class AccountRepo {
     //Insert an account into database
-    public void createTable(String accID,String accName, String accType, String currency){
+    public void insertAccountRecord(String accID,String accName, String accType, String currency){
         String sql = "INSERT INTO accounts(accID, accName, accType, currency) VALUES (?, ?, ?, ?)";
         try(Connection c = Db.connect(); PreparedStatement ps = c.prepareStatement(sql)){
             ps.setString(1, accID);
