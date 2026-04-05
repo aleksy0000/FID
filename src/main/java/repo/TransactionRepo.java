@@ -1,3 +1,11 @@
+/*
+    TransactionRepo.java
+
+    Purpose -> TransactionRepo.java handles all operations modifying transaction and ledgerLines tables and records in the database.
+
+    Functionality:
+    - addTransactionToDB(Transaction transaction) -> Inserts transaction objects data and its nested ledgerLine objects data into transaction and ledgerLines respectively.
+ */
 package repo;
 
 import db.Db;
@@ -9,6 +17,11 @@ import java.util.Date;
 
 public final class TransactionRepo {
 
+    /*
+        Inserts:
+        1. transaction record into transaction table using passed transaction object.
+        2. ledgerLines database record into ledgerLines table using ledgerLines java record, through ledgerLines list inside of passed transactions object.
+     */
     public static void addTransactionToDB(Transaction transaction) {
 
         transaction.assertBalance();
