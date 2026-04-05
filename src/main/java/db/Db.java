@@ -12,11 +12,11 @@ import java.sql.*;
  * Connection conn = db.connect();
  */
 public class Db {
-    private static String DB_DIR;
-    private static String URL;
+    private String DB_DIR;
+    private String URL;
 
     public Db(String DB_DIR, String DB_FILE){
-        Db.DB_DIR = DB_DIR;
+        DB_DIR = DB_DIR;
         URL = "jdbc:sqlite:" + DB_DIR + "/" + DB_FILE;
     }
 
@@ -26,7 +26,7 @@ public class Db {
      * @return SQLlite connection
      * @throws SQLException
      */
-    public static Connection connect() throws SQLException {
+    public Connection connect() throws SQLException {
 
         Connection c = DriverManager.getConnection(URL);
         try (Statement st = c.createStatement()){
@@ -40,7 +40,7 @@ public class Db {
     /**
      * <p> Initialises Schema </p>
      */
-    public static void init(){
+    public void init(){
         try{
             Files.createDirectories(Paths.get(DB_DIR));
             try(Connection c = connect(); Statement st = c.createStatement()){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="dbTest.DbTest" time="0.299" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="dbTest.DbTest" time="0.122" tests="5" errors="2" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21.0.10\bin"/>
-    <property name="sun.java.command" value="C:\Users\alexs\AppData\Local\Temp\surefire416670244697171628\surefirebooter-20260405150325092_3.jar C:\Users\alexs\AppData\Local\Temp\surefire416670244697171628 2026-04-05T15-03-24_997-jvmRun1 surefire-20260405150325092_1tmp surefire_0-20260405150325092_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\alexs\AppData\Local\Temp\surefire12973968529970523704\surefirebooter-20260405153105588_3.jar C:\Users\alexs\AppData\Local\Temp\surefire12973968529970523704 2026-04-05T15-31-05_493-jvmRun1 surefire-20260405153105588_1tmp surefire_0-20260405153105588_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\alexs\IdeaProjects\FID\target\test-classes;C:\Users\alexs\IdeaProjects\FID\target\classes;C:\Users\alexs\.m2\repository\org\xerial\sqlite-jdbc\3.46.1.0\sqlite-jdbc-3.46.1.0.jar;C:\Users\alexs\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\alexs\.m2\repository\com\opencsv\opencsv\4.1\opencsv-4.1.jar;C:\Users\alexs\.m2\repository\org\apache\commons\commons-lang3\3.6\commons-lang3-3.6.jar;C:\Users\alexs\.m2\repository\org\apache\commons\commons-text\1.1\commons-text-1.1.jar;C:\Users\alexs\.m2\repository\commons-beanutils\commons-beanutils\1.9.3\commons-beanutils-1.9.3.jar;C:\Users\alexs\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\alexs\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\alexs\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.3\junit-jupiter-6.0.3.jar;C:\Users\alexs\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.3\junit-jupiter-api-6.0.3.jar;C:\Users\alexs\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\alexs\.m2\repository\org\junit\platform\junit-platform-commons\6.0.3\junit-platform-commons-6.0.3.jar;C:\Users\alexs\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\alexs\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\alexs\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.3\junit-jupiter-params-6.0.3.jar;C:\Users\alexs\.m2\repository\org\junit\jupiter\junit-jupiter-engine\6.0.3\junit-jupiter-engine-6.0.3.jar;C:\Users\alexs\.m2\repository\org\junit\platform\junit-platform-engine\6.0.3\junit-platform-engine-6.0.3.jar;C:\Users\alexs\.m2\repository\org\slf4j\slf4j-nop\2.0.9\slf4j-nop-2.0.9.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\alexs\AppData\Local\Temp\surefire416670244697171628\surefirebooter-20260405150325092_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\alexs\AppData\Local\Temp\surefire12973968529970523704\surefirebooter-20260405153105588_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.10+8-LTS-217"/>
@@ -59,14 +59,48 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="connect_should_enable_foreign_keys" classname="dbTest.DbTest" time="0.161">
+  <testcase name="connect_should_enable_foreign_keys" classname="dbTest.DbTest" time="0.098">
     <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 ]]></system-err>
   </testcase>
-  <testcase name="connect_returns_open_connection" classname="dbTest.DbTest" time="0.005"/>
-  <testcase name="connect_shouldAllowExecutingSql" classname="dbTest.DbTest" time="0.007"/>
-  <testcase name="init_shouldCreateColumns" classname="dbTest.DbTest" time="0.115"/>
-  <testcase name="init_shouldCreateTables" classname="dbTest.DbTest" time="0.011"/>
+  <testcase name="connect_returns_open_connection" classname="dbTest.DbTest" time="0.003"/>
+  <testcase name="connect_shouldAllowExecutingSql" classname="dbTest.DbTest" time="0.003"/>
+  <testcase name="init_shouldCreateColumns" classname="dbTest.DbTest" time="0.008">
+    <error message="DB init failed" type="java.lang.RuntimeException"><![CDATA[java.lang.RuntimeException: DB init failed
+	at db.Db.init(Db.java:91)
+	at dbTest.DbTest.init_shouldCreateColumns(DbTest.java:85)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: transactionID)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.jdbc3.JDBC3Statement.lambda$execute$0(JDBC3Statement.java:54)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3Statement.execute(JDBC3Statement.java:43)
+	at db.Db.init(Db.java:88)
+	... 1 more
+]]></error>
+  </testcase>
+  <testcase name="init_shouldCreateTables" classname="dbTest.DbTest" time="0.004">
+    <error message="DB init failed" type="java.lang.RuntimeException"><![CDATA[java.lang.RuntimeException: DB init failed
+	at db.Db.init(Db.java:91)
+	at dbTest.DbTest.init_shouldCreateTables(DbTest.java:64)
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: transactionID)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.jdbc3.JDBC3Statement.lambda$execute$0(JDBC3Statement.java:54)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3Statement.execute(JDBC3Statement.java:43)
+	at db.Db.init(Db.java:88)
+	... 1 more
+]]></error>
+  </testcase>
 </testsuite>

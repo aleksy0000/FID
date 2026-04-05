@@ -1,7 +1,7 @@
 repoTest\BalanceRepoTest.class
 serviceTest\FinanceServiceTest.class
-repoTest\TransactionRepoTest.class
 transactionsTest\TransactionTest.class
 accountsTest\AccountTest.class
+repo\TransactionRepoTest.class
 dbTest\DbTest.class
 repoTest\AccountRepoTest.class

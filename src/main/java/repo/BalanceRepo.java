@@ -13,7 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static db.Db.connect;
+import db.Db;
+
 import static java.sql.DriverManager.getConnection;
 
 public class BalanceRepo {

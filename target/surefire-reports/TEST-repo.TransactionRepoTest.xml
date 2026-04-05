@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="repoTest.AccountRepoTest" time="0.023" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="repo.TransactionRepoTest" time="0.029" tests="2" errors="0" skipped="0" failures="2">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,8 +59,29 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testInsertDuplicateAccIDThrows" classname="repoTest.AccountRepoTest" time="0.004"/>
-  <testcase name="testEmptyTableReturnsEmptyList" classname="repoTest.AccountRepoTest" time="0.004"/>
-  <testcase name="testInsertAccountRecord" classname="repoTest.AccountRepoTest" time="0.006"/>
-  <testcase name="testAccListToStringMultipleRecords" classname="repoTest.AccountRepoTest" time="0.007"/>
+  <testcase name="testAddTransactionToDBUnbalancedThrows" classname="repo.TransactionRepoTest" time="0.009">
+    <failure message="Unexpected exception type thrown, expected: &lt;java.lang.AssertionError&gt; but was: &lt;java.lang.IllegalStateException&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.AssertionError> but was: <java.lang.IllegalStateException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:68)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)
+	at repo.TransactionRepoTest.testAddTransactionToDBUnbalancedThrows(TransactionRepoTest.java:126)
+Caused by: java.lang.IllegalStateException: Unbalanced transaction. Debits=1000 Credits=500
+	at transactions.Transaction.assertBalance(Transaction.java:66)
+	at repo.TransactionRepo.addTransactionToDB(TransactionRepo.java:27)
+	at repo.TransactionRepoTest.lambda$testAddTransactionToDBUnbalancedThrows$0(TransactionRepoTest.java:126)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)
+	... 3 more
+]]></failure>
+  </testcase>
+  <testcase name="testAddTransactionToDB" classname="repo.TransactionRepoTest" time="0.02">
+    <failure message="Transaction record should exist ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Transaction record should exist ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:69)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:41)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:228)
+	at repo.TransactionRepoTest.testAddTransactionToDB(TransactionRepoTest.java:74)
+]]></failure>
+  </testcase>
 </testsuite>

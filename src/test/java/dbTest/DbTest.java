@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DbTest {
     @TempDir
     Path tempDir;
+    Db db = createTestDb();
 
     private Db createTestDb(){
         return new Db("data", "test.db");
@@ -21,9 +22,8 @@ public class DbTest {
 
     @Test
     void connect_returns_open_connection() throws SQLException, ClassNotFoundException {
-        Db db = createTestDb();
 
-        try(Connection conn = Db.connect()){
+        try(Connection conn = db.connect()){
             assertNotNull(conn);
             assertFalse(conn.isClosed());
         }
@@ -33,7 +33,7 @@ public class DbTest {
     void connect_should_enable_foreign_keys() throws Exception {
         Db db = createTestDb();
 
-        try (Connection conn = Db.connect()){
+        try (Connection conn = db.connect()){
             Statement st =  conn.createStatement();
             ResultSet rs = st.executeQuery("PRAGMA foreign_keys;");
 
@@ -80,10 +80,6 @@ public class DbTest {
 
     @Test
     void init_shouldCreateColumns() throws Exception {
-        Db db = createTestDb();
-
-        db.init();
-
         try (Connection c = db.connect()) {
             assertTrue(columnExists(c, "accounts", "accID"));
             assertTrue(columnExists(c, "accounts", "accName"));
