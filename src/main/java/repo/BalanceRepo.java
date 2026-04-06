@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import db.Db;
 
 public class BalanceRepo {
-    // AI GENERATED CODE
     private final Db db;
 
     public BalanceRepo(Db db) {

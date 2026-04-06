@@ -12,7 +12,6 @@ import java.sql.*;
  * Connection conn = db.connect();
  */
 public class Db {
-    // AI GENERATED CODE
     private final Path dbDir;
     private final String url;
 

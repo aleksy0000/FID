@@ -15,7 +15,6 @@ import java.sql.*;
 import java.util.*;
 
 public class AccountRepo {
-    // AI GENERATED CODE
     private final Db db;
 
     public AccountRepo(Db db) {

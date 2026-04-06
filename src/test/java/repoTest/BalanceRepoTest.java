@@ -12,13 +12,13 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BalanceRepoTest {
-    // AI GENERATED CODE
     @TempDir
     Path tempDir;
 
     private Db db;
     private BalanceRepo balanceRepo;
 
+    // Runs before each test, creates isolated ledgerLines table
     @BeforeEach
     void setUp() throws Exception {
         db = new Db(tempDir, "balance-test.db");
@@ -45,6 +45,7 @@ class BalanceRepoTest {
         }
     }
 
+    //test that getAccountBalance returns correct balance
     @Test
     void testGetAccountBalanceExistingAccount() {
         // Account 001: balance = (1000 + 500) - (200 + 100) = 1200
@@ -56,6 +57,7 @@ class BalanceRepoTest {
         assertEquals(500, balance2);
     }
 
+    // tests getAccountBalance behaviour with non-existing accounts
     @Test
     void testGetAccountBalanceNoTransactions() {
         // Account 003 does not exist, should return 0

@@ -21,7 +21,7 @@ public class DbTest {
     }
 
     //connect() tests
-
+    //connect() should return an open connection.
     @Test
     void connect_returns_open_connection() throws SQLException, ClassNotFoundException {
         Db db = createTestDb();
@@ -34,6 +34,7 @@ public class DbTest {
         db.init();
     }
 
+    //connect() enables foreign keys i.e., PRAGMA foreign_keys = ON
     @Test
     void connect_should_enable_foreign_keys() throws Exception {
         Db db = createTestDb();
@@ -47,6 +48,7 @@ public class DbTest {
         }
     }
 
+    //SQL statements are able to be executed through connection
     @Test
     void connect_shouldAllowExecutingSql() throws Exception {
         Db db = createTestDb();
@@ -61,7 +63,7 @@ public class DbTest {
     }
 
     //init() tests
-
+    //all relevant tables exist after init runs, i.e., accounts, transactions, ledgerLines.
     @Test
     void init_shouldCreateTables() throws Exception {
         Db db = createTestDb();
@@ -74,13 +76,7 @@ public class DbTest {
         }
     }
 
-    //@Test
-    /*void init_shouldBeIdempotent() {
-
-        assertDoesNotThrow(db::init);
-        assertDoesNotThrow(db::init);
-    }*/
-
+    //Every table created has it's corresponding columns.
     @Test
     void init_shouldCreateColumns() throws Exception {
         Db db = createTestDb();

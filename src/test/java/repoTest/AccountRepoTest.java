@@ -25,6 +25,7 @@ class AccountRepoTest {
     private AccountRepo accountRepo;
 
     // Runs before each test, ensures a clean database state
+    // Isolates accounts table for testing
     @BeforeEach
     void setUp() throws Exception {
         db = new Db(tempDir, "account-test.db");
