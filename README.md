@@ -1,5 +1,5 @@
 # Financial Independence Dashboard (a systems-oriented financial data processing platform)
-The purpose of this application is to provide the user with a complete view of their finances on one screen while learning various engineering competencies.
+The purpose of this application is to provide the user with a complete view of their finances on one screen.
 
 # Tech Stack
  - Java - Logic
@@ -7,22 +7,16 @@ The purpose of this application is to provide the user with a complete view of t
  - sqlite - Database (maybe postgres later)
  - nextjs - UI (but not until java and sql logic is complete)
 
-# Book Stack
-- Designing Data Intensive Applications by Martin Kleppman
-- Effective Java by Joshua Bloch
-- Test-Driven Development By Example by Kent Beck
-- Practical Unit Testing with JUnit and Mockito
-
-# Stage 1
-- Transaction Ledger (Double-Entry)
-- Account Model
-- Balance Computation
+# Stage 1 - Core
+- ~~Transaction Ledger (Double-Entry)~~
+- ~~Account Model~~
+- ~~Balance Computation~~
 - CSV Import
-- Duplicate Detection
-- Reversal Transactions
+- ~~Duplicate Detection~~
+- Reversal Transactions <- Current Focus
 - Read Only Reports
 
-# Stage 2
+# Stage 2 - REST API
 - Dashboard Summary
 - Transactions list with filters + search
 - category rules + merchant clean up
