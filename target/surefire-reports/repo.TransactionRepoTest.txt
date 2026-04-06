@@ -1,27 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: repo.TransactionRepoTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! -- in repo.TransactionRepoTest
-repo.TransactionRepoTest.testAddTransactionToDBUnbalancedThrows -- Time elapsed: 0.009 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.AssertionError> but was: <java.lang.IllegalStateException>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
-	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:68)
-	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
-	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3223)
-	at repo.TransactionRepoTest.testAddTransactionToDBUnbalancedThrows(TransactionRepoTest.java:126)
-Caused by: java.lang.IllegalStateException: Unbalanced transaction. Debits=1000 Credits=500
-	at transactions.Transaction.assertBalance(Transaction.java:66)
-	at repo.TransactionRepo.addTransactionToDB(TransactionRepo.java:27)
-	at repo.TransactionRepoTest.lambda$testAddTransactionToDBUnbalancedThrows$0(TransactionRepoTest.java:126)
-	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:54)
-	... 3 more
-
-repo.TransactionRepoTest.testAddTransactionToDB -- Time elapsed: 0.020 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: Transaction record should exist ==> expected: <true> but was: <false>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
-	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:69)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:41)
-	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:228)
-	at repo.TransactionRepoTest.testAddTransactionToDB(TransactionRepoTest.java:74)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in repo.TransactionRepoTest

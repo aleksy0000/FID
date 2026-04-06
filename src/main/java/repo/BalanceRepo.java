@@ -15,11 +15,16 @@ import java.sql.SQLException;
 
 import db.Db;
 
-import static java.sql.DriverManager.getConnection;
-
 public class BalanceRepo {
+    // AI GENERATED CODE
+    private final Db db;
+
+    public BalanceRepo(Db db) {
+        this.db = db;
+    }
+
     //return account balance from database
-    public static int getAccountBalance(String accID){
+    public int getAccountBalance(String accID){
         String getAccountBalanceSql = """
             SELECT accID, sum(debit_amount_cents) - sum(credit_amount_cents) AS balance
             FROM ledgerLines
@@ -27,7 +32,7 @@ public class BalanceRepo {
             GROUP BY accID;
         """;
 
-        try (Connection conn = connect();
+        try (Connection conn = db.connect();
              PreparedStatement stmt = conn.prepareStatement(getAccountBalanceSql)) {
 
             stmt.setString(1, accID); // bind parameter

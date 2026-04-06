@@ -12,12 +12,17 @@ import java.sql.*;
  * Connection conn = db.connect();
  */
 public class Db {
-    private String DB_DIR;
-    private String URL;
+    // AI GENERATED CODE
+    private final Path dbDir;
+    private final String url;
 
-    public Db(String DB_DIR, String DB_FILE){
-        DB_DIR = DB_DIR;
-        URL = "jdbc:sqlite:" + DB_DIR + "/" + DB_FILE;
+    public Db(String dbDir, String dbFile){
+        this(Paths.get(dbDir), dbFile);
+    }
+
+    public Db(Path dbDir, String dbFile){
+        this.dbDir = dbDir;
+        this.url = "jdbc:sqlite:" + dbDir.resolve(dbFile);
     }
 
     /**
@@ -28,7 +33,7 @@ public class Db {
      */
     public Connection connect() throws SQLException {
 
-        Connection c = DriverManager.getConnection(URL);
+        Connection c = DriverManager.getConnection(url);
         try (Statement st = c.createStatement()){
             st.execute("PRAGMA foreign_keys = ON;");
             st.execute("PRAGMA journal_mode = wal;");
@@ -42,7 +47,7 @@ public class Db {
      */
     public void init(){
         try{
-            Files.createDirectories(Paths.get(DB_DIR));
+            Files.createDirectories(dbDir);
             try(Connection c = connect(); Statement st = c.createStatement()){
 
                 //accounts table, we are not storing balance here, we derive balance from transactions

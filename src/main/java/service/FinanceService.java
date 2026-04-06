@@ -14,6 +14,7 @@ package service;
 import accounts.Account;
 import accounts.AccountType;
 import accounts.Currency;
+import db.Db;
 import repo.*;
 import transactions.LedgerLine;
 import transactions.Transaction;
@@ -24,8 +25,14 @@ import java.util.Date;
 import java.util.List;
 
 public final class FinanceService {
-    private final AccountRepo accounts = new AccountRepo();
-    private final TransactionRepo tx = new TransactionRepo();
+    // AI GENERATED CODE
+    private final AccountRepo accounts;
+    private final TransactionRepo tx;
+
+    public FinanceService(Db db) {
+        this.accounts = new AccountRepo(db);
+        this.tx = new TransactionRepo(db);
+    }
 
     //Creates a new account object and passes its data to insertAccountRecord() which inserts it into the database.
     public void createNewAccountAndInsertIntoDB(String name, AccountType type, Currency currency) {

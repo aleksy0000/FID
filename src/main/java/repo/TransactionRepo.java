@@ -16,13 +16,19 @@ import java.util.*;
 import java.util.Date;
 
 public final class TransactionRepo {
+    // AI GENERATED CODE
+    private final Db db;
+
+    public TransactionRepo(Db db) {
+        this.db = db;
+    }
 
     /*
         Inserts:
         1. transaction record into transaction table using passed transaction object.
         2. ledgerLines database record into ledgerLines table using ledgerLines java record, through ledgerLines list inside of passed transactions object.
      */
-    public static void addTransactionToDB(Transaction transaction) {
+    public void addTransactionToDB(Transaction transaction) {
 
         transaction.assertBalance();
 
@@ -34,7 +40,7 @@ public final class TransactionRepo {
       INSERT INTO ledgerLines(accID, transactionID, debit_amount_cents, credit_amount_cents)
       VALUES (?, ?, ?, ?)
     """;
-        try (Connection c = Db.connect()) {
+        try (Connection c = db.connect()) {
             c.setAutoCommit(false);
 
             try(

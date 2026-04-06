@@ -5,8 +5,10 @@ package repoTest;
 
 import db.Db;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 import repo.AccountRepo;
 
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
@@ -15,15 +17,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountRepoTest {
 
+    // AI GENERATED CODE
+    @TempDir
+    Path tempDir;
+
+    private Db db;
     private AccountRepo accountRepo;
 
     // Runs before each test, ensures a clean database state
     @BeforeEach
     void setUp() throws Exception {
-        accountRepo = new AccountRepo();
+        db = new Db(tempDir, "account-test.db");
+        accountRepo = new AccountRepo(db);
 
         // Use a fresh table in the database to ensure tests don't interfere with each other
-        try (Connection c = Db.connect(); Statement stmt = c.createStatement()) {
+        try (Connection c = db.connect(); Statement stmt = c.createStatement()) {
             // Drop the table if it exists to start clean
             stmt.execute("DROP TABLE IF EXISTS accounts");
 

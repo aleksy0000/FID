@@ -2,19 +2,30 @@ package repoTest;
 
 import db.Db;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 import repo.BalanceRepo;
 
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BalanceRepoTest {
+    // AI GENERATED CODE
+    @TempDir
+    Path tempDir;
+
+    private Db db;
+    private BalanceRepo balanceRepo;
 
     @BeforeEach
     void setUp() throws Exception {
+        db = new Db(tempDir, "balance-test.db");
+        balanceRepo = new BalanceRepo(db);
+
         // Create a fresh ledgerLines table for testing
-        try (Connection c = Db.connect(); Statement stmt = c.createStatement()) {
+        try (Connection c = db.connect(); Statement stmt = c.createStatement()) {
             // Drop the table if it exists to start clean
             stmt.execute("DROP TABLE IF EXISTS ledgerLines");
 
@@ -37,28 +48,28 @@ class BalanceRepoTest {
     @Test
     void testGetAccountBalanceExistingAccount() {
         // Account 001: balance = (1000 + 500) - (200 + 100) = 1200
-        int balance = BalanceRepo.getAccountBalance("001");
+        int balance = balanceRepo.getAccountBalance("001");
         assertEquals(1200, balance);
 
         // Account 002: balance = 2000 - 1500 = 500
-        int balance2 = BalanceRepo.getAccountBalance("002");
+        int balance2 = balanceRepo.getAccountBalance("002");
         assertEquals(500, balance2);
     }
 
     @Test
     void testGetAccountBalanceNoTransactions() {
         // Account 003 does not exist, should return 0
-        int balance = BalanceRepo.getAccountBalance("003");
+        int balance = balanceRepo.getAccountBalance("003");
         assertEquals(0, balance);
     }
 
     @Test
     void testGetAccountBalanceAllCredits() throws Exception {
         // Insert a new account with only credits
-        try (Connection c = Db.connect(); Statement stmt = c.createStatement()) {
+        try (Connection c = db.connect(); Statement stmt = c.createStatement()) {
             stmt.execute("INSERT INTO ledgerLines(accID, debit_amount_cents, credit_amount_cents) VALUES ('004', 0, 500)");
         }
-        int balance = BalanceRepo.getAccountBalance("004");
+        int balance = balanceRepo.getAccountBalance("004");
         // Balance should be negative if credits > debits: 0 - 500 = -500
         assertEquals(-500, balance);
     }
@@ -66,10 +77,10 @@ class BalanceRepoTest {
     @Test
     void testGetAccountBalanceAllDebits() throws Exception {
         // Insert a new account with only debits
-        try (Connection c = Db.connect(); Statement stmt = c.createStatement()) {
+        try (Connection c = db.connect(); Statement stmt = c.createStatement()) {
             stmt.execute("INSERT INTO ledgerLines(accID, debit_amount_cents, credit_amount_cents) VALUES ('005', 800, 0)");
         }
-        int balance = BalanceRepo.getAccountBalance("005");
+        int balance = balanceRepo.getAccountBalance("005");
         assertEquals(800, balance);
     }
 }

@@ -2,10 +2,12 @@ package repo;
 
 import db.Db;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 
 import transactions.Transaction;
 import transactions.LedgerLine;
 
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,10 +17,19 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionRepoTest {
+    // AI GENERATED CODE
+    @TempDir
+    Path tempDir;
+
+    private Db db;
+    private TransactionRepo transactionRepo;
 
     @BeforeEach
     void setUp() throws Exception {
-        try (Connection c = Db.connect(); Statement stmt = c.createStatement()) {
+        db = new Db(tempDir, "transaction-test.db");
+        transactionRepo = new TransactionRepo(db);
+
+        try (Connection c = db.connect(); Statement stmt = c.createStatement()) {
             // Drop tables if they exist to start clean
             stmt.execute("DROP TABLE IF EXISTS ledgerLines");
             stmt.execute("DROP TABLE IF EXISTS transactions");
@@ -57,30 +68,31 @@ class TransactionRepoTest {
         // Create a transaction object with the correct constructor
         Transaction tx = new Transaction(
                 new Date(),                // transactionDate
-                "TX001",                   // transactionID
+                "TX001",                   // description
                 List.of(line1, line2),     // ledger lines
                 totalDebit,                // total debit
                 totalCredit                // total credit
         );
 
         // Insert transaction into DB
-        TransactionRepo.addTransactionToDB(tx);
+        transactionRepo.addTransactionToDB(tx);
 
         // Verify transaction record exists
-        try (Connection c = Db.connect();
+        try (Connection c = db.connect();
              Statement stmt = c.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM transactions WHERE transactionID='TX001'")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM transactions WHERE transactionID='" + tx.getTransactionID() + "'")) {
 
             assertTrue(rs.next(), "Transaction record should exist");
-            assertEquals("TX001", rs.getString("transactionID"));
+            assertEquals(tx.getTransactionID(), rs.getString("transactionID"));
+            assertEquals("TX001", rs.getString("description"));
         } catch (Exception e) {
             fail("Exception verifying transactions table: " + e.getMessage());
         }
 
         // Verify ledger lines were inserted correctly
-        try (Connection c = Db.connect();
+        try (Connection c = db.connect();
              Statement stmt = c.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM ledgerLines WHERE transactionID='TX001'")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM ledgerLines WHERE transactionID='" + tx.getTransactionID() + "'")) {
 
             int count = 0;
             while (rs.next()) {
@@ -122,7 +134,6 @@ class TransactionRepoTest {
                 totalCredit
         );
 
-        // Should throw AssertionError because transaction is unbalanced
-        assertThrows(AssertionError.class, () -> TransactionRepo.addTransactionToDB(tx));
+        assertThrows(IllegalStateException.class, () -> transactionRepo.addTransactionToDB(tx));
     }
 }
