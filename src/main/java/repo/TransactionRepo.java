@@ -30,6 +30,7 @@ public final class TransactionRepo {
      */
     public void addTransactionToDB(Transaction transaction) {
 
+        duplicateCheck(transaction);
         transaction.assertBalance();
 
         String transactionSql = """
@@ -77,6 +78,52 @@ public final class TransactionRepo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void duplicateCheck(Transaction transaction) {
+        String sql = """
+        SELECT 1 FROM transactions WHERE transactionID = ?
+    """;
+
+        try (Connection c = db.connect();
+             PreparedStatement stmt = c.prepareStatement(sql)) {
+
+            stmt.setString(1, transaction.getTransactionID());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                throw new RuntimeException("Duplicate transaction detected");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //returns specific transaction by transactionID
+    public transaction getByID(String transactionID) throws SQLException {
+        String sql = """
+        SELECT transactionID, transactionDate, description, originalTransactionID
+        FROM transactions
+        WHERE transactionID = ?
+    """;
+
+        try (Connection c = db.connect();
+
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    //return specific ledgerLines by transactionID
+
+    //Reversal Transaction Rules:
+    //Never delete or modify a transaction.
+    //you must add a new transaction that cancels the other out.
+    public void reverseTransaction(String transactionID) {
+
     }
 
 }

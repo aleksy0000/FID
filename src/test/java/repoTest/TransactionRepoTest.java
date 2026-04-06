@@ -136,4 +136,23 @@ class TransactionRepoTest {
 
         assertThrows(IllegalStateException.class, () -> transactionRepo.addTransactionToDB(tx));
     }
+
+    @Test
+    void testAddTransactionToDBDuplicateTransactionThrows() {
+        LedgerLine line1 = new LedgerLine("001", 1000, 0);
+        LedgerLine line2 = new LedgerLine("002", 0, 1000);
+
+        Transaction tx = new Transaction(
+                new Date(),
+                "TX003",
+                List.of(line1, line2),
+                1000,
+                1000
+        );
+
+        transactionRepo.addTransactionToDB(tx);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> transactionRepo.addTransactionToDB(tx));
+        assertEquals("Duplicate transaction detected", exception.getMessage());
+    }
 }
