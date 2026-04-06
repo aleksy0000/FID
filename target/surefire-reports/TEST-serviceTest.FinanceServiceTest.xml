@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="accountsTest.AccountTest" time="0.093" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="serviceTest.FinanceServiceTest" time="0.079" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,8 +59,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="account_id_valid_uuid" classname="accountsTest.AccountTest" time="0.066"/>
-  <testcase name="accounts_have_no_missing_fields" classname="accountsTest.AccountTest" time="0.004"/>
-  <testcase name="account_id_is_unique_across_multiple_instances" classname="accountsTest.AccountTest" time="0.005"/>
-  <testcase name="account_has_id" classname="accountsTest.AccountTest" time="0.0"/>
+  <testcase name="create_ledger_line_rejects_unbalanced_amounts" classname="serviceTest.FinanceServiceTest" time="0.016"/>
+  <testcase name="create_ledger_line_returns_balanced_debit_and_credit_lines" classname="serviceTest.FinanceServiceTest" time="0.018"/>
+  <testcase name="new_transaction_calculates_totals_from_ledger_lines" classname="serviceTest.FinanceServiceTest" time="0.017"/>
+  <testcase name="create_new_account_and_insert_into_db_persists_account_record" classname="serviceTest.FinanceServiceTest" time="0.028"/>
 </testsuite>
