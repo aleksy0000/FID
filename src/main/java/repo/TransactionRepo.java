@@ -101,15 +101,65 @@ public final class TransactionRepo {
         }
     }
 
-    //returns specific transaction by transactionID
-    public transaction getByID(String transactionID) throws SQLException {
-        String sql = """
-        SELECT transactionID, transactionDate, description, originalTransactionID
-        FROM transactions
-        WHERE transactionID = ?
-    """;
+    //returns specific transaction and it's ledgerLines by transactionID
+   public Transaction getByID(String transactionID) throws SQLException {
+        String getTransactionsSql =
+                """
+                    SELECT transactionID, transactionDate, description
+                    FROM transactions
+                    WHERE transactionID = ?
+                """;
+
+        String getLedgerLinesSql =
+                """
+                    SELECT accID, transactionID, debit_amount_cents,  credit_amount_cents
+                    FROM ledgerLines
+                    WHERE transactionID = ?
+                """;
 
         try (Connection c = db.connect();
+            PreparedStatement getTransactionStmt = c.prepareStatement(getTransactionsSql);
+            PreparedStatement getLedgerLinesStmt = c.prepareStatement(getLedgerLinesSql);){
+
+            //Fetch transaction header
+            getTransactionsStmt.setString(1, transactionID);
+
+            ResultSet transactionResults = getTransactionStmt.executeQuery();
+
+            Transaction tx = null;
+
+            while(transactionResults.next()) {
+                tx = new Transaction(
+                    transactionResults.getDate("transactionDate"),
+                    transactionResults.getString("description"),
+                    new ArrayList<>(),
+                    0,
+                    0
+                )
+            }
+
+            //fetch ledger lines
+            getLedgerLinesStmt.setString(1, transactionID);
+
+            ResultSet ledgerLinesResults = getLedgerLinesSql.executeQuery();
+
+            List<LedgerLine> ledgerLines = new ArrayList<>();
+
+            while(ledgerLinesResults.next()) {
+                ledgerLines.add(new LedgerLine(
+                        ledgerLinesResults.getString("accID"),
+                        ledgerLinesResults.getString("debit_amount_cents");
+                        ledgerLinesResults.getString("credit_amount_cents");
+                ));
+            }
+
+            return new Transaction(
+                    tx.getTransactionDate(),
+                    tx.getDescription(),
+                    ledgerLines,
+                    0,
+                    0
+            )
 
 
         } catch (SQLException e){
@@ -117,13 +167,13 @@ public final class TransactionRepo {
         }
     }
 
-    //return specific ledgerLines by transactionID
-
     //Reversal Transaction Rules:
     //Never delete or modify a transaction.
     //you must add a new transaction that cancels the other out.
     public void reverseTransaction(String transactionID) {
+        //get transaction from database with the specific transactionID
 
+        //create a transactions with exactly opposite values to cancel the other out.
     }
 
 }

@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 
 public final class FinanceService {
-    // AI GENERATED CODE
     private final AccountRepo accounts;
     private final TransactionRepo tx;
 
