@@ -102,7 +102,7 @@ public final class TransactionRepo {
     }
 
     //returns specific transaction and it's ledgerLines by transactionID
-   public Transaction getByID(String transactionID) throws SQLException {
+   public Transaction getTransactionByID(String transactionID) throws SQLException {
         String getTransactionsSql =
                 """
                     SELECT transactionID, transactionDate, description
